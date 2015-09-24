@@ -14,12 +14,13 @@
 
 <script type="text/javascript">
 
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
 
 function preload() {
     game.load.image('sky', 'assets/sky.png');
     game.load.image('ground', 'assets/platform.png');
     game.load.image('star', 'assets/star.png');
+    game.load.image('bullet5', 'assets/bullet5.png');
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
 }
     
@@ -66,22 +67,11 @@ function create() {
     //player.animations.add('left', [0, 1, 2, 3], 10, true);
     //player.animations.add('right', [5, 6, 7, 8], 10, true);
 
-    var Bullet = function (game, key) {
+    game.weapons.push(new Weapon.SingleBullet(game));
 
-        Phaser.Sprite.call(this, game, 0, 0, key);
+    //Bind shot to spacebar
+    game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 
-        this.texture.baseTexture.scaleMode = PIXI.scaleModes.NEAREST;
-
-        this.anchor.set(0.5);
-
-        this.checkWorldBounds = true;
-        this.outOfBoundsKill = true;
-        this.exists = false;
-
-        this.tracking = false;
-        this.scaleSpeed = 0;
-
-    };
     
 }
 
@@ -118,24 +108,66 @@ function update() {
         player.y += 3;    
     }
 
+    if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+            //game.weapons.fire(game.player);
+            Weapon.SingleBullet.prototype.fire(game.player);
+    }
+
 }
 
+//Functions for Bullets
+var Bullet = function (game, key) {
+    Phaser.Sprite.call(this, game, 0, 0, key);
+    this.texture.baseTexture.scaleMode = PIXI.scaleModes.NEAREST;
+    this.anchor.set(0.5);
+    this.checkWorldBounds = true;
+    this.outOfBoundsKill = true;
+    this.exists = false;
+    this.tracking = false;
+    this.scaleSpeed = 0;
+};
+
+Bullet.prototype = Object.create(Phaser.Sprite.prototype);
+Bullet.prototype.constructor = Bullet;
+
+Bullet.prototype.fire = function (x, y, angle, speed, gx, gy) {
+    gx = gx || 0;
+    gy = gy || 0;
+    this.reset(x, y);
+    this.scale.set(1);
+    this.game.physics.arcade.velocityFromAngle(angle, speed, this.body.velocity);
+    this.angle = angle;
+    this.body.gravity.set(gx, gy);
+};
+
+Bullet.prototype.update = function () {
+    if (this.tracking) {
+        this.rotation = Math.atan2(this.body.velocity.y, this.body.velocity.x);
+    }
+    if (this.scaleSpeed > 0) {
+        this.scale.x += this.scaleSpeed;
+        this.scale.y += this.scaleSpeed;
+    }
+};
+
+var Weapon = {};
+
 Weapon.SingleBullet = function (game) {
-
     Phaser.Group.call(this, game, game.world, 'Single Bullet', false, true, Phaser.Physics.ARCADE);
-
     this.nextFire = 0;
     this.bulletSpeed = 600;
     this.fireRate = 100;
 
-    for (var i = 0; i < 64; i++)
-    {
+    for (var i = 0; i < 64; i++) {
         this.add(new Bullet(game, 'bullet5'), true);
     }
 
     return this;
 
 };
+
+Weapon.SingleBullet.prototype = Object.create(Phaser.Group.prototype);
+Weapon.SingleBullet.prototype.constructor = Weapon.SingleBullet;
 
 Weapon.SingleBullet.prototype.fire = function (source) {
 
