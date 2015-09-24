@@ -27,7 +27,7 @@
 //     $aliasContents et $projectContents si vides
 
 //[modif oto] - Pour supprimer niveau localhost dans les url 
-$suppress_localhost = true;
+$suppress_localhost = false;
 // avec modification de la ligne
 //$projectContents .= '<li><a href="'.$file.'">'.$file.'</a></li>';
 //Par :
@@ -37,7 +37,7 @@ $suppress_localhost = true;
 // si déplacement www hors de Wamp et pas d'utilisation des jonctions
 //Par défaut la valeur est "../"
 //$server_dir = "WAMPROOT/";
-$server_dir = "../";
+$server_dir = "C:/wamp/";
 //Fonctionne à condition d'avoir ServerSignature On et ServerTokens Full dans httpd.conf
 $server_software = $_SERVER['SERVER_SOFTWARE'];
 
