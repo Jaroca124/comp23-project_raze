@@ -90,11 +90,10 @@ Weapon.SingleBullet.prototype.constructor = Weapon.SingleBullet;
 Weapon.SingleBullet.prototype.fire = function (source) {
 
     if (game.time.time < this.nextFire) { return; }
-    console.log(source);
     var x = source.x + 10;
     var y = source.y + 10;
 
-    this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, 0);
+    this.getFirstExists(false).fire(x, y, player.angle - 90, this.bulletSpeed, 0, 0);
 
     this.nextFire = game.time.time + this.fireRate;
 
@@ -142,8 +141,6 @@ function create() {
 
     //Bind shot to spacebar
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
-
-    game.currentWeapon = 0;
 
     
 }
