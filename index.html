@@ -20,7 +20,8 @@ function preload() {
     game.load.image('sky', 'assets/sky.png');
     game.load.image('ground', 'assets/platform.png');
     game.load.image('star', 'assets/star.png');
-    game.load.image('bullet5', 'assets/bullet5.png');
+    game.load.image('bullet4', 'assets/bullet4.png');
+    game.load.image('rude', 'assets/rude.png');
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
     game.renderer.renderSession.roundPixels = true;
 
@@ -73,11 +74,11 @@ var Weapon = {};
 Weapon.SingleBullet = function (game) {
     Phaser.Group.call(this, game, game.world, 'Single Bullet', false, true, Phaser.Physics.ARCADE);
     this.nextFire = 0;
-    this.bulletSpeed = 600;
+    this.bulletSpeed = 400;
     this.fireRate = 100;
 
     for (var i = 0; i < 64; i++) {
-        this.add(new Bullet(game, 'bullet5'), true);
+        this.add(new Bullet(game, 'bullet4'), true);
     }
 
     return this;
@@ -87,13 +88,24 @@ Weapon.SingleBullet = function (game) {
 Weapon.SingleBullet.prototype = Object.create(Phaser.Group.prototype);
 Weapon.SingleBullet.prototype.constructor = Weapon.SingleBullet;
 
-Weapon.SingleBullet.prototype.fire = function (source) {
+Weapon.SingleBullet.prototype.fire = function (source, Dual) {
 
     if (game.time.time < this.nextFire) { return; }
-    var x = source.x + 10;
-    var y = source.y + 10;
-
-    this.getFirstExists(false).fire(x, y, player.angle - 90, this.bulletSpeed, 0, 0);
+    var x;
+    var y;
+    if (Dual) {
+        x = source.x + 20;
+        y = source.y + 10;
+        this.getFirstExists(false).fire(x, y, player.angle - 90, this.bulletSpeed, 0, 0);
+        x = source.x + 0;
+        y = source.y + 10;
+        this.getFirstExists(false).fire(x, y, player.angle - 90, this.bulletSpeed, 0, 0);
+    }
+    else {
+        x = source.x;// + 10;
+        y = source.y + 50;// + 10;
+        this.getFirstExists(false).fire(x, y, player.angle - 90, this.bulletSpeed, 0, 0);
+    }
 
     this.nextFire = game.time.time + this.fireRate;
 
@@ -126,7 +138,7 @@ function create() {
     //ground.body.immovable = true;
 
     // The player and its settings
-    player = game.add.sprite(32, game.world.height - 150, 'dude');
+    player = game.add.sprite(32, game.world.height - 150, 'rude');
 
     //  We need to enable physics on the player
     //game.physics.arcade.enable(player);
@@ -145,8 +157,10 @@ function create() {
     
 }
 
+// Pistol = 0, Dual = 1, automatic = 2
+var current_weapon = 2;
 var fired = false;
-var semi = false;
+var semi = true;
 
 function update() {
     
@@ -181,12 +195,32 @@ function update() {
         player.y += 3;    
     }
     
-    if (game.input.activePointer.isDown && semi == true) { 
+    // Manage guns
+    if (current_weapon == 0) {
+        semi = true;
+    }
+    else if (current_weapon == 1) {
+        semi = true;
+    }
+    else {
+        semi = false;
+    }
+
+    // Pistol
+    if (game.input.activePointer.isDown && semi == true && current_weapon == 0) { 
         if (!fired) {    
-            weapons[0].fire(player);
+            weapons[0].fire(player, false);
             fired = true;
         }
     }
+    // Dual Wield
+    else if (game.input.activePointer.isDown && semi == true && current_weapon == 1) { 
+        if (!fired) {    
+            weapons[0].fire(player, true);
+            fired = true;
+        }
+    }
+    // Automatic
     else if (game.input.activePointer.isDown && semi == false) {
         weapons[0].fire(player);
     }
