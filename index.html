@@ -139,11 +139,14 @@ function create() {
 
     weapons.push(new Weapon.SingleBullet(this.game));
 
-    //Bind shot to spacebar, awesome
+    //Bind shot to spacebar
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 
     
 }
+
+var fired = false;
+var semi = false;
 
 function update() {
     
@@ -177,11 +180,18 @@ function update() {
     if (wasd.down.isDown) {
         player.y += 3;    
     }
-
-    if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-            //game.weapons.fire(game.player);
-            //Weapon.SingleBullet.prototype.fire(player);
+    
+    if (game.input.activePointer.isDown && semi == true) { 
+        if (!fired) {    
             weapons[0].fire(player);
+            fired = true;
+        }
+    }
+    else if (game.input.activePointer.isDown && semi == false) {
+        weapons[0].fire(player);
+    }
+    else {
+        fired = false;
     }
 
 }
