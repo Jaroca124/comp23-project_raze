@@ -5,6 +5,7 @@
     <title>Project Raze</title>
     <script type="text/javascript" src="js/phaser.min.js"></script>
     <script type="text/javascript" src="gun_methods.js"></script>
+    <script type="text/javascript" src="enemy.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -23,6 +24,7 @@ function preload() {
     game.load.image('star', 'assets/star.png');
     game.load.image('bullet4', 'assets/bullet4.png');
     game.load.image('rude', 'assets/rude.png');
+    game.load.image('panther', 'assets/panther.png');
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
     game.renderer.renderSession.roundPixels = true;
 
@@ -67,6 +69,7 @@ function create() {
 
     // The player and its settings
     player = game.add.sprite(32, game.world.height - 150, 'rude');
+    player.anchor.setTo(0.5, 0.5);
 
     //  We need to enable physics on the player
     //game.physics.arcade.enable(player);
@@ -81,6 +84,14 @@ function create() {
 
     //Bind shot to spacebar
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
+
+    //Enemies
+    enemies = game.add.group();
+    viewGroup = game.add.group();
+    panther = Enemy(enemies, viewGroup, 200, 200, 'panther'); 
+    
+
+    //panther = game.add.sprite(32, game.world.height - 175, 'panther');
 
     
 }
@@ -155,6 +166,8 @@ function update() {
     else {
         fired = false;
     }
+
+    update_enemies(panther, panther.position.x, panther.position.y);
 
 }
 
