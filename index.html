@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Project Raze</title>
     <script type="text/javascript" src="js/phaser.min.js"></script>
+    <script type="text/javascript" src="gun_methods.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -33,83 +34,10 @@ function preload() {
 var platforms;
 var score = 0;
 var scoreText;
-
-//Functions for Bullets
-var Bullet = function (game, key) {
-    Phaser.Sprite.call(this, game, 0, 0, key);
-    this.texture.baseTexture.scaleMode = PIXI.scaleModes.NEAREST;
-    this.anchor.set(0.5);
-    this.checkWorldBounds = true;
-    this.outOfBoundsKill = true;
-    this.exists = false;
-    this.tracking = false;
-    this.scaleSpeed = 0;
-};
-
-Bullet.prototype = Object.create(Phaser.Sprite.prototype);
-Bullet.prototype.constructor = Bullet;
-
-Bullet.prototype.fire = function (x, y, angle, speed, gx, gy) {
-    gx = gx || 0;
-    gy = gy || 0;
-    this.reset(x, y);
-    this.scale.set(1);
-    this.game.physics.arcade.velocityFromAngle(angle, speed, this.body.velocity);
-    this.angle = angle;
-    this.body.gravity.set(gx, gy);
-};
-
-Bullet.prototype.update = function () {
-    if (this.tracking) {
-        this.rotation = Math.atan2(this.body.velocity.y, this.body.velocity.x);
-    }
-    if (this.scaleSpeed > 0) {
-        this.scale.x += this.scaleSpeed;
-        this.scale.y += this.scaleSpeed;
-    }
-};
-
-var Weapon = {};
-
-Weapon.SingleBullet = function (game) {
-    Phaser.Group.call(this, game, game.world, 'Single Bullet', false, true, Phaser.Physics.ARCADE);
-    this.nextFire = 0;
-    this.bulletSpeed = 400;
-    this.fireRate = 100;
-
-    for (var i = 0; i < 64; i++) {
-        this.add(new Bullet(game, 'bullet4'), true);
-    }
-
-    return this;
-
-};
-
-Weapon.SingleBullet.prototype = Object.create(Phaser.Group.prototype);
-Weapon.SingleBullet.prototype.constructor = Weapon.SingleBullet;
-
-Weapon.SingleBullet.prototype.fire = function (source, Dual) {
-
-    if (game.time.time < this.nextFire) { return; }
-    var x;
-    var y;
-    if (Dual) {
-        x = source.x + 20;
-        y = source.y + 10;
-        this.getFirstExists(false).fire(x, y, player.angle - 90, this.bulletSpeed, 0, 0);
-        x = source.x + 0;
-        y = source.y + 10;
-        this.getFirstExists(false).fire(x, y, player.angle - 90, this.bulletSpeed, 0, 0);
-    }
-    else {
-        x = source.x;// + 10;
-        y = source.y + 50;// + 10;
-        this.getFirstExists(false).fire(x, y, player.angle - 90, this.bulletSpeed, 0, 0);
-    }
-
-    this.nextFire = game.time.time + this.fireRate;
-
-};
+// Pistol = 0, Dual = 1, automatic = 2
+var current_weapon = 1;
+var fired = false;
+var semi = true;
 
 function create() {
 
@@ -157,11 +85,6 @@ function create() {
     
 }
 
-// Pistol = 0, Dual = 1, automatic = 2
-var current_weapon = 2;
-var fired = false;
-var semi = true;
-
 function update() {
     
      //  Collide the player and the stars with the platforms
@@ -206,6 +129,11 @@ function update() {
         semi = false;
     }
 
+    //Fire Gun
+    /*if (game.input.activePointer.isDown) {
+        determine_gun(semi, current_weapon);
+    }*/
+
     // Pistol
     if (game.input.activePointer.isDown && semi == true && current_weapon == 0) { 
         if (!fired) {    
@@ -222,7 +150,7 @@ function update() {
     }
     // Automatic
     else if (game.input.activePointer.isDown && semi == false) {
-        weapons[0].fire(player);
+        weapons[0].fire(player, false);
     }
     else {
         fired = false;
