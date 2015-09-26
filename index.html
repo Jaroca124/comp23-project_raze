@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Project Raze</title>
     <script type="text/javascript" src="js/phaser.min.js"></script>
+    <script type="text/javascript" src="gun_methods.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -14,19 +15,29 @@
 
 <script type="text/javascript">
 
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
 
 function preload() {
     game.load.image('sky', 'assets/sky.png');
     game.load.image('ground', 'assets/platform.png');
     game.load.image('star', 'assets/star.png');
+    game.load.image('bullet4', 'assets/bullet4.png');
+    game.load.image('rude', 'assets/rude.png');
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+    game.renderer.renderSession.roundPixels = true;
+
+    weapons = [];
+
 }
-    
+ 
+//  Load various functions and objects
 var platforms;
 var score = 0;
 var scoreText;
-
+// Pistol = 0, Dual = 1, automatic = 2
+var current_weapon = 1;
+var fired = false;
+var semi = true;
 
 function create() {
 
@@ -55,7 +66,7 @@ function create() {
     //ground.body.immovable = true;
 
     // The player and its settings
-    player = game.add.sprite(32, game.world.height - 150, 'dude');
+    player = game.add.sprite(32, game.world.height - 150, 'rude');
 
     //  We need to enable physics on the player
     //game.physics.arcade.enable(player);
@@ -66,22 +77,11 @@ function create() {
     //player.animations.add('left', [0, 1, 2, 3], 10, true);
     //player.animations.add('right', [5, 6, 7, 8], 10, true);
 
-    var Bullet = function (game, key) {
+    weapons.push(new Weapon.SingleBullet(this.game));
 
-        Phaser.Sprite.call(this, game, 0, 0, key);
+    //Bind shot to spacebar
+    game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 
-        this.texture.baseTexture.scaleMode = PIXI.scaleModes.NEAREST;
-
-        this.anchor.set(0.5);
-
-        this.checkWorldBounds = true;
-        this.outOfBoundsKill = true;
-        this.exists = false;
-
-        this.tracking = false;
-        this.scaleSpeed = 0;
-
-    };
     
 }
 
@@ -117,38 +117,46 @@ function update() {
     if (wasd.down.isDown) {
         player.y += 3;    
     }
-
-}
-
-Weapon.SingleBullet = function (game) {
-
-    Phaser.Group.call(this, game, game.world, 'Single Bullet', false, true, Phaser.Physics.ARCADE);
-
-    this.nextFire = 0;
-    this.bulletSpeed = 600;
-    this.fireRate = 100;
-
-    for (var i = 0; i < 64; i++)
-    {
-        this.add(new Bullet(game, 'bullet5'), true);
+    
+    // Manage guns
+    if (current_weapon == 0) {
+        semi = true;
+    }
+    else if (current_weapon == 1) {
+        semi = true;
+    }
+    else {
+        semi = false;
     }
 
-    return this;
+    //Fire Gun
+    /*if (game.input.activePointer.isDown) {
+        determine_gun(semi, current_weapon);
+    }*/
 
-};
+    // Pistol
+    if (game.input.activePointer.isDown && semi == true && current_weapon == 0) { 
+        if (!fired) {    
+            weapons[0].fire(player, false);
+            fired = true;
+        }
+    }
+    // Dual Wield
+    else if (game.input.activePointer.isDown && semi == true && current_weapon == 1) { 
+        if (!fired) {    
+            weapons[0].fire(player, true);
+            fired = true;
+        }
+    }
+    // Automatic
+    else if (game.input.activePointer.isDown && semi == false) {
+        weapons[0].fire(player, false);
+    }
+    else {
+        fired = false;
+    }
 
-Weapon.SingleBullet.prototype.fire = function (source) {
-
-    if (this.game.time.time < this.nextFire) { return; }
-
-    var x = source.x + 10;
-    var y = source.y + 10;
-
-    this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, 0);
-
-    this.nextFire = this.game.time.time + this.fireRate;
-
-};
+}
 
 </script>
 
