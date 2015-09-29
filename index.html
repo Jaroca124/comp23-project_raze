@@ -26,6 +26,7 @@ function preload() {
     game.load.image('rude', 'assets/rude.png');
     game.load.image('panther', 'assets/panther.png');
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+    game.load.image('gorilla', 'assets/Gorilla_1.png');
     game.renderer.renderSession.roundPixels = true;
 
     weapons = [];
@@ -88,7 +89,8 @@ function create() {
     //Enemies
     enemies = game.add.group();
     viewGroup = game.add.group();
-    panther = Enemy(enemies, viewGroup, 200, 200, 'panther'); 
+    //panther = Enemy(enemies, viewGroup, 200, 200, 'panther'); 
+    Gorilla = Enemy(enemies. viewGroup, 200, 200, 'Gorilla_1');
     
 
     //panther = game.add.sprite(32, game.world.height - 175, 'panther');
