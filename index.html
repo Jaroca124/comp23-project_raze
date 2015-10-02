@@ -5,6 +5,7 @@
     <title>Project Raze</title>
     <script type="text/javascript" src="js/phaser.min.js"></script>
     <script type="text/javascript" src="gun_methods.js"></script>
+    <script type="text/javascript" src='powerups.js'></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -24,6 +25,9 @@ function preload() {
     game.load.image('bullet4', 'assets/bullet4.png');
     game.load.image('rude', 'assets/rude.png');
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+    game.load.image('health_25', 'assets/health_25.png');
+    game.load.image('health_50', 'assets/health_50.png');
+    game.load.image('health_75', 'assets/health_75.png');
     game.renderer.renderSession.roundPixels = true;
 
     weapons = [];
@@ -38,6 +42,7 @@ var scoreText;
 var current_weapon = 1;
 var fired = false;
 var semi = true;
+var health = 100;
 
 function create() {
 
@@ -81,6 +86,13 @@ function create() {
 
     //Bind shot to spacebar
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
+
+    //Health
+    health_powerups = game.add.group();
+    for (var i = 0; i < 3; i++) {
+        var health_objects = Health(health_powerups, 75, 250 + i*50, 250 + i*100);
+    }
+    healthText = game.add.text(16, 16, 'Health: ' + health, { fontSize: '32px', fill: '#000' });
 
     
 }
@@ -156,6 +168,14 @@ function update() {
         fired = false;
     }
 
+    health_powerups.forEach(function(health) {
+        game.physics.arcade.overlap(player, health, c_Health, null, this);
+    });
+}
+
+function c_Health(player, collider) {
+    health += collider.collide();
+    healthText.text = 'Health: ' + health;
 }
 
 </script>
