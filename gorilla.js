@@ -11,26 +11,29 @@ var Rock = function (game, key) {
 
 Rock.prototype = Object.create(Phaser.Sprite.prototype);
 Rock.prototype.constructor = Rock;
+
 Gorilla.prototype = Object.create(Phaser.Sprite.prototype);
 
 Gorilla.prototype.constructor = Gorilla;
 
 Gorilla.prototype.force = {x:0.0, y:0.0}; 
 
-function Gorilla(game, x, y) {
-    var gorilla = Phaser.Sprite.call(this, game, x, y, 'gorilla');
-    this.scale.set(1.0, 1.0);
-    this.anchor.setTo(0.5, 0.5);
-    game.physics.enable(this, Phaser.Physics.ARCADE);
-    this.body.allowRotation = false;
-    game.add.existing(this);
+
+function Gorilla(group, x, y) {
+    var gorilla = group.create(0, 0, 'gorilla');
+    gorilla.position.x = x;
+    gorilla.position.y = y;
+    gorilla.scale.setTo(0.05, 0.05);
+    gorilla.anchor.setTo(0.5, 0.5);
+
+    game.physics.enable(gorilla, Phaser.Physics.ARCADE);
 }
 
-Gorilla.prototype.throw = function (x,y) {
+Gorilla.prototype.throw = function (x, y, rock) {
 
         x = x + 10;
         y = y + 50;
-        Rock.throw(x, y, this.angle - 90, 150, 0, 0);
+        rock.throw(x, y, this.angle - 90, 150, 0, 0);
 
 };
 Gorilla.prototype.update = function() {
