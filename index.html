@@ -94,6 +94,12 @@ function create() {
     }
     healthText = game.add.text(16, 16, 'Health: ' + health, { fontSize: '32px', fill: '#000' });
 
+    // Guns
+    guns = game.add.group();
+    var single = change_gun(guns, 0, 400, 400);
+    var dual = change_gun(guns, 1, 300, 700);
+    var auto = change_gun(guns, 2, 700, 300);
+    gunText = game.add.text(400, 16, 'Current Gun: ' + current_weapon, { fontSize: '32px', fill: '#000' });
     
 }
 
@@ -171,11 +177,20 @@ function update() {
     health_powerups.forEach(function(health) {
         game.physics.arcade.overlap(player, health, c_Health, null, this);
     });
+
+    guns.forEach(function(gun) {
+        game.physics.arcade.overlap(player, gun, c_Gun, null, this);
+    });
 }
 
 function c_Health(player, collider) {
     health += collider.collide();
     healthText.text = 'Health: ' + health;
+}
+
+function c_Gun(player, collider) {
+    current_weapon = collider.collide();
+    gunText.text = 'Current Gun: ' + current_weapon;
 }
 
 </script>
