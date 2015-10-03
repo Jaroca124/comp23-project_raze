@@ -5,7 +5,8 @@
     <title>Project Raze</title>
     <script type="text/javascript" src="js/phaser.min.js"></script>
     <script type="text/javascript" src="gun_methods.js"></script>
-    <script type="text/javascript" src="enemy.js"></script>
+        <script type="text/javascript" src="enemy.js"></script>
+        <script type="text/javascript" src="gorilla.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -21,10 +22,8 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload, cr
 function preload() {
     game.load.image('sky', 'assets/sky.png');
     game.load.image('ground', 'assets/platform.png');
-    game.load.image('star', 'assets/star.png');
     game.load.image('bullet4', 'assets/bullet4.png');
     game.load.image('rude', 'assets/rude.png');
-    game.load.image('panther', 'assets/panther.png');
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
     game.load.image('gorilla', 'assets/Gorilla_1.png');
     game.renderer.renderSession.roundPixels = true;
@@ -55,22 +54,15 @@ function create() {
     };
 
 
-    // Change to background images, testing
+    // Change to background images
     game.add.sprite(0, 0, 'sky');
 
-
-    // Here we create the ground.
-    //var ground = platforms.create(0, game.world.height - 64, 'ground');
-
-    //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    //ground.scale.setTo(2, 2);
-
-    //  This stops it from falling away when you jump on it
-    //ground.body.immovable = true;
+    gorilla = new Gorilla(game, 50, 50);
 
     // The player and its settings
     player = game.add.sprite(32, game.world.height - 150, 'rude');
     player.anchor.setTo(0.5, 0.5);
+
 
     //  We need to enable physics on the player
     //game.physics.arcade.enable(player);
@@ -90,12 +82,11 @@ function create() {
     enemies = game.add.group();
     viewGroup = game.add.group();
     //panther = Enemy(enemies, viewGroup, 200, 200, 'panther'); 
-    Gorilla = Enemy(enemies. viewGroup, 200, 200, 'Gorilla_1');
-    
+    //Gorilla = Enemy(enemies. viewGroup, 200, 200, 'gorilla');
 
-    //panther = game.add.sprite(32, game.world.height - 175, 'panther');
 
-    
+     //panther = game.add.sprite(32, game.world.height - 175, 'panther');
+
 }
 
 function update() {
@@ -168,9 +159,12 @@ function update() {
     else {
         fired = false;
     }
+    game.physics.arcade.overlap(player, enemies, collisionHandler, null, this);
+   // update_enemies(Gorilla, Gorilla.position.x, Gorilla.position.y);
 
-    update_enemies(panther, panther.position.x, panther.position.y);
-
+}
+function collisionHandler(player, collider) {
+    collider.collide();
 }
 
 </script>
