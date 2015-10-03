@@ -17,7 +17,7 @@
 
 <script type="text/javascript">
 
-var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(800, 600, Phaser.AUTO, "game", { preload: preload, create: create, update: update });
 
 function preload() {
     game.load.image('sky', 'assets/sky.png');
@@ -78,15 +78,6 @@ function create() {
     //Bind shot to spacebar
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 
-    //Enemies
-    enemies = game.add.group();
-    viewGroup = game.add.group();
-    //panther = Enemy(enemies, viewGroup, 200, 200, 'panther'); 
-    //Gorilla = Enemy(enemies. viewGroup, 200, 200, 'gorilla');
-
-
-     //panther = game.add.sprite(32, game.world.height - 175, 'panther');
-
 }
 
 function update() {
@@ -132,12 +123,10 @@ function update() {
     else {
         semi = false;
     }
-
     //Fire Gun
     /*if (game.input.activePointer.isDown) {
         determine_gun(semi, current_weapon);
     }*/
-
     // Pistol
     if (game.input.activePointer.isDown && semi == true && current_weapon == 0) { 
         if (!fired) {    
@@ -159,8 +148,7 @@ function update() {
     else {
         fired = false;
     }
-    game.physics.arcade.overlap(player, enemies, collisionHandler, null, this);
-   // update_enemies(Gorilla, Gorilla.position.x, Gorilla.position.y);
+    game.physics.arcade.overlap(player, gorilla, collisionHandler, null, this);
 
 }
 function collisionHandler(player, collider) {
