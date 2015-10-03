@@ -19,7 +19,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload, cr
 
 function preload() {
 
-    game.load.image('grass', 'assets/maps/grass_small.png');
+    game.load.atlasJSONHash('sheet_small', 'assets/maps/sheet_small.png', 'assets/maps/sheet_small.json');
     game.load.image('bullet4', 'assets/bullet4.png');
     game.load.image('rude', 'assets/rude.png');
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
@@ -28,7 +28,7 @@ function preload() {
     weapons = [];
 
 }
- 
+
 //  Load various functions and objects
 var platforms;
 var score = 0;
@@ -53,7 +53,7 @@ function create() {
 
     // Change to background images
     var bg = game.add.tileSprite(0, 0, 800,600, 'grass');
-
+    rock_test = game.add.sprite(50, 50, 'rock');
 
     // Here we create the ground.
     //var ground = platforms.create(0, game.world.height - 64, 'ground');
