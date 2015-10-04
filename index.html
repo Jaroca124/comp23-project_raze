@@ -110,27 +110,29 @@ function update() {
     var mY = game.input.mousePointer.y;
     /* look at the mouse */
     player.angle = Math.atan2(player.position.x - mX, player.position.y - mY)  * -57.2957795;
+    player.body.velocity.x = 0;
+    player.body.velocity.y = 0;
 
     if (wasd.left.isDown)
     {
         //  Move to the left
-        player.x -= 3;
+        player.body.velocity.x = 150;
 
         //player.animations.play('left');
     }
     if (wasd.right.isDown)
     {
         //  Move to the right
-        player.x += 3;
+        player.body.velocity.x = -150;
 
         //player.animations.play('right');
     }
     if (wasd.up.isDown) {
-        player.y -= 3;   
+        player.body.velocity.y = 150;   
     }
 
     if (wasd.down.isDown) {
-        player.y += 3;    
+        player.body.velocity.y = -150;    
     }
     
     // // Manage guns
