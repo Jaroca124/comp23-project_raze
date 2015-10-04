@@ -32,9 +32,9 @@ function preload() {
     // game.load.image('health_25', 'assets/health_25.png');
     // game.load.image('health_50', 'assets/health_50.png');
     // game.load.image('health_75', 'assets/health_75.png');
-    game.renderer.renderSession.roundPixels = true;
+    // game.renderer.renderSession.roundPixels = true;
 
-    weapons = [];
+    // weapons = [];
 
 }
 
@@ -49,7 +49,7 @@ var semi = true;
 var health = 100;
 
 function create() {
-
+    game.physics.startSystem(Phaser.Physics.ARCADE);
     this.cursors = game.input.keyboard.createCursorKeys();
 
     // Mapping new controls
