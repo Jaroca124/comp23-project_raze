@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <title>Project Raze</title>
     <script type="text/javascript" src="js/phaser.min.js"></script>
-<!--     // <script type="text/javascript" src="gun_methods.js"></script>
+    // <script type="text/javascript" src="gun_methods.js"></script>
     // <script type="text/javascript" src="enemy.js"></script>
     // <script type="text/javascript" src="gorilla.js"></script>
-    // <script type="text/javascript" src='powerups.js'></script> -->
+    // <script type="text/javascript" src='powerups.js'></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -21,20 +21,20 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, "game", { preload: preload, create: create, update: update });
 
 function preload() {
-    // game.load.image('sky', 'assets/sky.png');
-    // game.load.image('ground', 'assets/platform.png');
-    // game.load.atlasJSONHash('sheet_small', 'assets/maps/sheet_small.png', 'assets/maps/sheet_small.json');
-    // game.load.image('bullet4', 'assets/bullet4.png');
+    game.load.image('sky', 'assets/sky.png');
+    game.load.image('ground', 'assets/platform.png');
+    game.load.atlasJSONHash('sheet_small', 'assets/maps/sheet_small.png', 'assets/maps/sheet_small.json');
+    game.load.image('bullet4', 'assets/bullet4.png');
     game.load.image('rude', 'assets/rude.png');
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
     // game.load.image('gorilla', 'assets/Gorilla_1.png');
-    // game.load.image('grass', 'assets/maps/grass_small.png');
-    // game.load.image('health_25', 'assets/health_25.png');
-    // game.load.image('health_50', 'assets/health_50.png');
-    // game.load.image('health_75', 'assets/health_75.png');
-    // game.renderer.renderSession.roundPixels = true;
+    game.load.image('grass', 'assets/maps/grass_small.png');
+    game.load.image('health_25', 'assets/health_25.png');
+    game.load.image('health_50', 'assets/health_50.png');
+    game.load.image('health_75', 'assets/health_75.png');
+    game.renderer.renderSession.roundPixels = true;
 
-    // weapons = [];
+    weapons = [];
 
 }
 
@@ -72,8 +72,8 @@ function create() {
 
     // gorilla = Gorilla(gorillas, 100, 100);
 
-    // var bg = game.add.tileSprite(0, 0, 800,600, 'grass');
-    // var rock_test = game.add.sprite(50, 50, 'rock.png');
+    var bg = game.add.tileSprite(0, 0, 800,600, 'grass');
+    var rock_test = game.add.sprite(50, 50, 'rock.png');
 
 
     // LEFTOVER FROM IMGS: The player and its settings
@@ -83,24 +83,24 @@ function create() {
     player.enableBody = true;
     player.force = {x:0.0, y:0.0};
 
-    // weapons.push(new Weapon.SingleBullet(this.game));
+    weapons.push(new Weapon.SingleBullet(this.game));
 
-    // //Bind shot to spacebar
-    // game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
+    //Bind shot to spacebar
+    game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 
-    // //Health
-    // health_powerups = game.add.group();
-    // for (var i = 0; i < 3; i++) {
-    //     var health_objects = Health(health_powerups, 75, 250 + i*50, 250 + i*100);
-    // }
-    // healthText = game.add.text(16, 16, 'Health: ' + health, { fontSize: '32px', fill: '#000' });
+    //Health
+    health_powerups = game.add.group();
+    for (var i = 0; i < 3; i++) {
+        var health_objects = Health(health_powerups, 75, 250 + i*50, 250 + i*100);
+    }
+    healthText = game.add.text(16, 16, 'Health: ' + health, { fontSize: '32px', fill: '#000' });
 
-    // // Guns
-    // guns = game.add.group();
-    // var single = change_gun(guns, 0, 400, 400);
-    // var dual = change_gun(guns, 1, 300, 700);
-    // var auto = change_gun(guns, 2, 700, 300);
-    // gunText = game.add.text(400, 16, 'Current Gun: ' + current_weapon, { fontSize: '32px', fill: '#000' });
+    // Guns
+    guns = game.add.group();
+    var single = change_gun(guns, 0, 400, 400);
+    var dual = change_gun(guns, 1, 300, 700);
+    var auto = change_gun(guns, 2, 700, 300);
+    gunText = game.add.text(400, 16, 'Current Gun: ' + current_weapon, { fontSize: '32px', fill: '#000' });
     
 }
 
@@ -128,72 +128,72 @@ function update() {
         //player.animations.play('right');
     }
     if (wasd.up.isDown) {
-        player.body.velocity.y = 150;   
+        player.body.velocity.y = -150;   
     }
 
     if (wasd.down.isDown) {
-        player.body.velocity.y = -150;    
+        player.body.velocity.y = 150;    
     }
     
-    // // Manage guns
-    // if (current_weapon == 0) {
-    //     semi = true;
-    // }
-    // else if (current_weapon == 1) {
-    //     semi = true;
-    // }
-    // else {
-    //     semi = false;
-    // }
+    // Manage guns
+    if (current_weapon == 0) {
+        semi = true;
+    }
+    else if (current_weapon == 1) {
+        semi = true;
+    }
+    else {
+        semi = false;
+    }
     //Fire Gun
     /*if (game.input.activePointer.isDown) {
         determine_gun(semi, current_weapon);
     }*/
     // Pistol
-    // if (game.input.activePointer.isDown && semi == true && current_weapon == 0) { 
-    //     if (!fired) {    
-    //         weapons[0].fire(player, false);
-    //         fired = true;
-    //     }
-    // }
-    // // Dual Wield
-    // else if (game.input.activePointer.isDown && semi == true && current_weapon == 1) { 
-    //     if (!fired) {    
-    //         weapons[0].fire(player, true);
-    //         fired = true;
-    //     }
-    // }
-    // // Automatic
-    // else if (game.input.activePointer.isDown && semi == false) {
-    //     weapons[0].fire(player, false);
-    // }
-    // else {
-    //     fired = false;
-    // }
+    if (game.input.activePointer.isDown && semi == true && current_weapon == 0) { 
+        if (!fired) {    
+            weapons[0].fire(player, false);
+            fired = true;
+        }
+    }
+    // Dual Wield
+    else if (game.input.activePointer.isDown && semi == true && current_weapon == 1) { 
+        if (!fired) {    
+            weapons[0].fire(player, true);
+            fired = true;
+        }
+    }
+    // Automatic
+    else if (game.input.activePointer.isDown && semi == false) {
+        weapons[0].fire(player, false);
+    }
+    else {
+        fired = false;
+    }
 
 //     game.physics.arcade.overlap(player, gorilla, collisionHandler, null, this);
 
-//     health_powerups.forEach(function(health) {
-//         game.physics.arcade.overlap(player, health, c_Health, null, this);
-//     });
+    health_powerups.forEach(function(health) {
+        game.physics.arcade.overlap(player, health, c_Health, null, this);
+    });
 
-//     guns.forEach(function(gun) {
-//         game.physics.arcade.overlap(player, gun, c_Gun, null, this);
-//     });
-// }
-
-// function c_Health(player, collider) {
-//     health += collider.collide();
-//     healthText.text = 'Health: ' + health;
-// }
-
-// function c_Gun(player, collider) {
-//     current_weapon = collider.collide();
-//     gunText.text = 'Current Gun: ' + current_weapon;
+    guns.forEach(function(gun) {
+        game.physics.arcade.overlap(player, gun, c_Gun, null, this);
+    });
 }
-// function collisionHandler(player, collider) {
-//     collider.collide();
-// }
+
+function c_Health(player, collider) {
+    health += collider.collide();
+    healthText.text = 'Health: ' + health;
+}
+
+function c_Gun(player, collider) {
+    current_weapon = collider.collide();
+    gunText.text = 'Current Gun: ' + current_weapon;
+}
+function collisionHandler(player, collider) {
+    collider.collide();
+}
 
 </script>
 
