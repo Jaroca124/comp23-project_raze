@@ -18,7 +18,7 @@
 
 <script type="text/javascript">
 
-var game = new Phaser.Game(800, 600, Phaser.AUTO, "game", { preload: preload, create: create, update: update });
+var game = new Phaser.Game(800, 600, Phaser.AUTO, "game", { preload: preload, create: create, collide: collide, collide2: collide2, update: update });
 
 function preload() {
     game.load.image('sky', 'assets/sky.png');
@@ -73,8 +73,9 @@ function create() {
     // LEFTOVER FROM IMGS: The player and its settings
     player = game.add.sprite(32, game.world.height - 150, 'rude');
     player.anchor.setTo(0.5, 0.5);
+
     game.physics.enable(player, Phaser.Physics.ARCADE);
-    player.enableBody = true;
+    //player.enableBody = true;
     player.force = {x:0.0, y:0.0};
 
     weapons.push(new Weapon.SingleBullet(this.game));
@@ -110,7 +111,10 @@ function create() {
 }
 
 function update() {
-    
+    if (health <= 0) {
+        player.kill(true);
+        restart();
+    }
     var mX = game.input.mousePointer.x;
     var mY = game.input.mousePointer.y;
     /* look at the mouse */
@@ -194,28 +198,36 @@ function update() {
     });
     gorillas.forEach(function(gorilla) {
         if (player.position.x > gorilla.position.x){
-            gorilla.position.x += .5;
+            gorilla.position.x += .05;
         }
         if (player.position.y > gorilla.position.y){
-            gorilla.position.y += .5;
+            gorilla.position.y += .05;
         }
         if (player.position.x < gorilla.position.x){
-            gorilla.position.x -= .5;
+            gorilla.position.x -= .05;
         }
         if (player.position.y < gorilla.position.y){
-            gorilla.position.y -= .5;
+            gorilla.position.y -= .05;
         }
         
         gorilla.angle++;
     });
     game.physics.arcade.collide(player, gorillas);
     game.physics.arcade.overlap(player, gorillas, collide, null, this);
+    game.physics.arcade.collide(Bullet, gorillas);
+    game.physics.arcade.overlap(Bullet, gorillas, collide2, null, this);
 
+}
+function collide2(x, y){
+    y.health --;
+    console.log(y.health);
+    if (y.health <= 0){
+       y.kill(true);
+    }
 }
 function collide (x, y){
     health -= 10;
     healthText.text = 'Health: ' + health;
-
 }
 function c_Health(player, collider) {
     health += collider.collide();

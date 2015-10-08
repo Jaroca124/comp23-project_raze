@@ -1,7 +1,10 @@
 //Functions for Bullets
+//Functions for Bullets
 var Bullet = function (game, key) {
+
     Phaser.Sprite.call(this, game, 0, 0, key);
     this.texture.baseTexture.scaleMode = PIXI.scaleModes.NEAREST;
+    game.physics.enable(this, Phaser.Physics.ARCADE);
     this.anchor.set(0.5);
     this.checkWorldBounds = true;
     this.outOfBoundsKill = true;
