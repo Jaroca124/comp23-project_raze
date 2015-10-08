@@ -35,12 +35,24 @@ function change_gun(group, gun_value, x, y) {
 	};
 }
 
-function create_powerup(type, group) {
+function create_powerup(type, group, current_weapon) {
 	if (type == 'health') {
 	    var health_values = [25, 50, 75];
 		var index = Math.floor((Math.random() * 3));
-		var random_position = Math.floor((Math.random() * 10) + 1);
+		var random_position = Math.floor((Math.random() * 100) + 1);
 	    var health_object = Health(group, health_values[index], ((250 + (random_position * 200)) % 800), ((250 * (random_position * random_position)) % 600));
 	    return health_object;
+	}
+	if (type == 'gun') {
+		var random_position = Math.floor((Math.random() * 100) + 1);
+		if (current_weapon == 0) {
+			return change_gun(guns, 1, ((250 + (random_position * 400)) % 800), ((200 * (random_position * random_position)) % 600));
+		}
+		if (current_weapon == 1) {
+			return change_gun(guns, 2, ((250 + (random_position * 400)) % 800), ((200 * (random_position * random_position)) % 600));
+		}
+		else {
+			return null;
+		}
 	}
 }

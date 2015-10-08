@@ -47,13 +47,15 @@ var scoreText;
 var health_count = 0;
 
 // Pistol = 0, Dual = 1, automatic = 2
-var current_weapon = 1;
+var current_weapon = 0;
 var fired = false;
 var semi = true;
 var health = 100;
 var ammo = 200;
 var time;
-var lastSpawn = 0;
+var last_health_spawn = 0;
+var last_weapon_spawn = 0;
+var current_weapon_powerup;
 
 
 function create() {
@@ -105,9 +107,9 @@ function create() {
         */
         // Guns
         guns = game.add.group();
-        var single = change_gun(guns, 0, 400, 400);
-        var dual = change_gun(guns, 1, 300, 700);
-        var auto = change_gun(guns, 2, 700, 300);
+        //var single = change_gun(guns, 0, 400, 400);
+        //var dual = change_gun(guns, 1, 300, 400);
+        //var auto = change_gun(guns, 2, 700, 300);
         gunText = game.add.text(400, 16, 'Current Gun: ' + current_weapon, { fontSize: '32px', fill: '#000' });
     
     // Ammo
@@ -116,18 +118,27 @@ function create() {
     //setInterval(create_health(health_powerups), 1000);
 }
 
-function create_health(group) {
-    var item = create_powerup('health', group);
-    health_count++;
+function create_item(group, type) {
+    var item = create_powerup(type, group, current_weapon);
+    if (type == 'health') {
+        health_count++;    
+    }
     return item;
 }
 
 function update() {
 
     seconds = Math.floor(this.time.totalElapsedSeconds());
-    if(lastSpawn != seconds && seconds % 5 == 0){
-        var new_health = create_health(health_powerups);
-        lastSpawn = seconds;
+    if(last_health_spawn != seconds && seconds % 5 == 0){
+        var new_health = create_item(health_powerups, 'health');
+        last_health_spawn = seconds;
+    }
+
+    if(last_weapon_spawn != seconds && seconds % 5 == 0){
+        if (current_weapon < 2) {
+            var new_weapon = create_item(guns, 'gun');
+            last_weapon_spawn = seconds;
+        }
     }
 
     if (ammo < 1) {
