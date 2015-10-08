@@ -1,4 +1,4 @@
-var Rock = function (game, key) {
+/*var Rock = function (game, key) {
     Phaser.Sprite.call(this, game, 0, 0, key);
     this.texture.baseTexture.scaleMode = PIXI.scaleModes.NEAREST;
     this.anchor.set(0.5);
@@ -11,7 +11,7 @@ var Rock = function (game, key) {
 
 Rock.prototype = Object.create(Phaser.Sprite.prototype);
 Rock.prototype.constructor = Rock;
-
+*/
 Gorilla.prototype = Object.create(Phaser.Sprite.prototype);
 
 Gorilla.prototype.constructor = Gorilla;
@@ -29,7 +29,7 @@ function Gorilla(group, x, y) {
     game.physics.enable(gorilla, Phaser.Physics.ARCADE);
 }
 
-Gorilla.prototype.throw = function (x, y, rock) {
+/*Gorilla.prototype.throw = function (x, y, rock) {
 
         x = x + 10;
         y = y + 50;
@@ -38,7 +38,7 @@ Gorilla.prototype.throw = function (x, y, rock) {
 };
 Gorilla.prototype.update = function() {
 
-    this.throw(this.position.x,this.position.y);
+    this.throw(this.position.x,this.position.y, Rock);
 
 
 }
@@ -60,3 +60,5 @@ Rock.prototype.throw = function (x, y, angle, speed, gx, gy) {
     this.angle = angle;
     this.body.gravity.set(gx, gy);
 };
+
+*/

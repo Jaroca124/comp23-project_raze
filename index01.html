@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <title>Project Raze</title>
     <script type="text/javascript" src="js/phaser.min.js"></script>
-    <script type="text/javascript" src="gun_methods.js"></script>
-    <script type="text/javascript" src="enemy.js"></script>
-    <script type="text/javascript" src="gorilla.js"></script>
-    <script type="text/javascript" src='powerups.js'></script>
+    // <script type="text/javascript" src="gun_methods.js"></script>
+    // <script type="text/javascript" src="enemy.js"></script>
+    // <script type="text/javascript" src="gorilla.js"></script>
+    // <script type="text/javascript" src='powerups.js'></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -26,12 +26,16 @@ function preload() {
     game.load.atlasJSONHash('sheet_small', 'assets/maps/sheet_small.png', 'assets/maps/sheet_small.json');
     game.load.image('bullet4', 'assets/bullet4.png');
     game.load.image('rude', 'assets/rude.png');
+    game.load.image('rock', 'assets/maps/rock.png');
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
     game.load.image('gorilla', 'assets/Gorilla_1.png');
     game.load.image('grass', 'assets/maps/grass_small.png');
     game.load.image('health_25', 'assets/health_25.png');
     game.load.image('health_50', 'assets/health_50.png');
     game.load.image('health_75', 'assets/health_75.png');
+    game.load.image('gun_0', 'assets/gun_0.png');
+    game.load.image('gun_1', 'assets/gun_1.png');
+    game.load.image('gun_2', 'assets/gun_2.png');
     game.renderer.renderSession.roundPixels = true;
 
     weapons = [];
@@ -47,9 +51,10 @@ var current_weapon = 1;
 var fired = false;
 var semi = true;
 var health = 100;
+var ammo = 200;
 
 function create() {
-
+    game.physics.startSystem(Phaser.Physics.ARCADE);
     this.cursors = game.input.keyboard.createCursorKeys();
 
     // Mapping new controls
@@ -61,23 +66,25 @@ function create() {
     };
 
 
-    // Change to background images
-    // LEFTOVER FROM OLD VER:
-        // game.add.sprite(0, 0, 'sky');
-
-    
-    gorillas = game.add.group();
-    var gorilla = Gorilla(gorillas, 100, 100);
-
     var bg = game.add.tileSprite(0, 0, 800,600, 'grass');
-    rock_test = game.add.sprite(50, 50, 'rock');
+ //   var rock_test = game.add.sprite(50, 50, 'rock.png');
 
 
     // LEFTOVER FROM IMGS: The player and its settings
     player = game.add.sprite(32, game.world.height - 150, 'rude');
     player.anchor.setTo(0.5, 0.5);
+    game.physics.enable(player, Phaser.Physics.ARCADE);
+    player.enableBody = true;
+    player.force = {x:0.0, y:0.0};
 
     weapons.push(new Weapon.SingleBullet(this.game));
+
+    gorillas = game.add.group();
+    gorillas.enableBody = true;
+    //viewGroup = game.add.group();
+
+    var gorilla = Gorilla(gorillas, 300, 300, player);
+    console.log(gorilla);
 
     //Bind shot to spacebar
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
@@ -96,6 +103,10 @@ function create() {
     var auto = change_gun(guns, 2, 700, 300);
     gunText = game.add.text(400, 16, 'Current Gun: ' + current_weapon, { fontSize: '32px', fill: '#000' });
     
+    //Ammo
+    ammoText = game.add.text(16, 32, 'Ammo: ' + ammo, { fontSize: '32px', fill: '#000' });
+    
+    
 }
 
 function update() {
@@ -104,27 +115,29 @@ function update() {
     var mY = game.input.mousePointer.y;
     /* look at the mouse */
     player.angle = Math.atan2(player.position.x - mX, player.position.y - mY)  * -57.2957795;
+    player.body.velocity.x = 0;
+    player.body.velocity.y = 0;
 
     if (wasd.left.isDown)
     {
         //  Move to the left
-        player.x -= 3;
+        player.body.velocity.x = -150;
 
         //player.animations.play('left');
     }
     if (wasd.right.isDown)
     {
         //  Move to the right
-        player.x += 3;
+        player.body.velocity.x = 150;
 
         //player.animations.play('right');
     }
     if (wasd.up.isDown) {
-        player.y -= 3;   
+        player.body.velocity.y = -150;   
     }
 
     if (wasd.down.isDown) {
-        player.y += 3;    
+        player.body.velocity.y = 150;    
     }
     
     // Manage guns
@@ -145,6 +158,8 @@ function update() {
     if (game.input.activePointer.isDown && semi == true && current_weapon == 0) { 
         if (!fired) {    
             weapons[0].fire(player, false);
+            ammo--;
+            ammoText.text = 'Ammo: ' + ammo;
             fired = true;
         }
     }
@@ -152,17 +167,23 @@ function update() {
     else if (game.input.activePointer.isDown && semi == true && current_weapon == 1) { 
         if (!fired) {    
             weapons[0].fire(player, true);
+            ammo--;
+            ammo--;
+            ammoText.text = 'Ammo: ' + ammo;
             fired = true;
         }
     }
     // Automatic
     else if (game.input.activePointer.isDown && semi == false) {
+        ammo--;
+        ammoText.text = 'Ammo: ' + ammo;
         weapons[0].fire(player, false);
     }
     else {
         fired = false;
     }
-   // game.physics.arcade.overlap(player, gorillas, collisionHandler, null, this);
+
+//     game.physics.arcade.overlap(player, gorilla, collisionHandler, null, this);
 
     health_powerups.forEach(function(health) {
         game.physics.arcade.overlap(player, health, c_Health, null, this);
@@ -171,29 +192,31 @@ function update() {
     guns.forEach(function(gun) {
         game.physics.arcade.overlap(player, gun, c_Gun, null, this);
     });
-
     gorillas.forEach(function(gorilla) {
-        if ((player.position.x - gorilla.position.x) < 20){
-            //throw the rock
+        if (player.position.x > gorilla.position.x){
+            gorilla.position.x += .5;
         }
-        else{
-            if (player.position.x > gorilla.position.x){
-                gorilla.position.x += .5;
-            }
-            if (player.position.y > gorilla.position.y){
-                gorilla.position.y += .5;
-            }
-            if (player.position.x < gorilla.position.x){
-                enemy.position.x -= .5;
-            }
-            if (player.position.y < gorilla.position.y){
-                gorilla.position.y -= .5;
-            }
+        if (player.position.y > gorilla.position.y){
+            gorilla.position.y += .5;
         }
+        if (player.position.x < gorilla.position.x){
+            gorilla.position.x -= .5;
+        }
+        if (player.position.y < gorilla.position.y){
+            gorilla.position.y -= .5;
+        }
+        
+        gorilla.angle++;
     });
+    game.physics.arcade.collide(player, gorillas);
+    game.physics.arcade.overlap(player, gorillas, collide, null, this);
 
 }
+function collide (x, y){
+    health -= 10;
+    healthText.text = 'Health: ' + health;
 
+}
 function c_Health(player, collider) {
     health += collider.collide();
     healthText.text = 'Health: ' + health;
