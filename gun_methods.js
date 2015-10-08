@@ -34,6 +34,8 @@ Bullet.prototype.update = function () {
         this.scale.x += this.scaleSpeed;
         this.scale.y += this.scaleSpeed;
     }
+    	game.physics.arcade.overlap(this, gorillas, collide2);
+
 };
 
 var Weapon = {};

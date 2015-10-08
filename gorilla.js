@@ -27,7 +27,7 @@ function Gorilla(group, x, y, player) {
     gorilla.position.y = y;
     gorilla.scale.setTo(1, 1);
     gorilla.anchor.setTo(0.5, 0.5);
-    //gorilla.health = 5;
+    gorilla.health = 5;
 
     game.physics.enable(gorilla, Phaser.Physics.ARCADE);
     return gorilla;
