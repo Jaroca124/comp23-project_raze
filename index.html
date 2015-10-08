@@ -18,6 +18,7 @@
 
 <script type="text/javascript">
 var game = new Phaser.Game(800, 600, Phaser.AUTO, "game", { preload: preload, create: create, collide: collide, collide2: collide2, update: update });
+
 function preload() {
     game.load.image('sky', 'assets/sky.png');
     game.load.image('ground', 'assets/platform.png');
@@ -37,19 +38,24 @@ function preload() {
     game.renderer.renderSession.roundPixels = true;
     weapons = [];
 }
+
 //  Load various functions and objects
 var platforms;
 var score = 0;
 var scoreText;
+
 // Pistol = 0, Dual = 1, automatic = 2
 var current_weapon = 1;
 var fired = false;
 var semi = true;
 var health = 100;
 var ammo = 200;
+
+
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     this.cursors = game.input.keyboard.createCursorKeys();
+    
     // Mapping new controls
     wasd = {
         up: game.input.keyboard.addKey(Phaser.Keyboard.W),
@@ -57,29 +63,36 @@ function create() {
         right: game.input.keyboard.addKey(Phaser.Keyboard.D),
         left: game.input.keyboard.addKey(Phaser.Keyboard.A)
     };
+
+    // Background
     var bg = game.add.tileSprite(0, 0, 800,600, 'grass');
- //   var rock_test = game.add.sprite(50, 50, 'rock.png');
-    // LEFTOVER FROM IMGS: The player and its settings
+
+    // Initalizing Player
     player = game.add.sprite(32, game.world.height - 150, 'rude');
     player.anchor.setTo(0.5, 0.5);
     game.physics.enable(player, Phaser.Physics.ARCADE);
-    //player.enableBody = true;
     player.force = {x:0.0, y:0.0};
+
+    // Use Spacebar to Shoot
+    game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
+
+    // Add Weapons 
     weapons.push(new Weapon.SingleBullet(this.game));
+    
+    // Add Gorilla Enemies
     gorillas = game.add.group();
     gorillas.enableBody = true;
-    //viewGroup = game.add.group();
     for (var j = 0; j < 3; j++) {
         var gorilla = Gorilla(gorillas, 300 + 100*j, 300 + 100*j, player);
     }
-    //Bind shot to spacebar
-    game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
-    //Health
+
+    // Health
     health_powerups = game.add.group();
     for (var i = 0; i < 3; i++) {
         var health_objects = Health(health_powerups, 75, 250 + i*50, 250 + i*100);
     }
     healthText = game.add.text(16, 16, 'Health: ' + health, { fontSize: '32px', fill: '#000' });
+    
     // Guns
     guns = game.add.group();
     var single = change_gun(guns, 0, 400, 400);
