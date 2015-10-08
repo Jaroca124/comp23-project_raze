@@ -27,6 +27,7 @@ function Gorilla(group, x, y, player) {
     gorilla.position.y = y;
     gorilla.scale.setTo(1, 1);
     gorilla.anchor.setTo(0.5, 0.5);
+    //gorilla.health = 5;
 
     game.physics.enable(gorilla, Phaser.Physics.ARCADE);
     return gorilla;
@@ -35,7 +36,7 @@ function Gorilla(group, x, y, player) {
 Gorilla.prototype.update = function() {
 
         forEach(function(gorilla) {
-        if (plauer.position.x > gorilla.position.x){
+        if (player.position.x > gorilla.position.x){
             gorilla.position.x += .5;
         }
         if (player.position.y > gorilla.position.y){
