@@ -4,10 +4,11 @@
     <meta charset="UTF-8" />
     <title>Project Raze</title>
     <script type="text/javascript" src="js/phaser.min.js"></script>
-    // <script type="text/javascript" src="gun_methods.js"></script>
-    // <script type="text/javascript" src="enemy.js"></script>
-    // <script type="text/javascript" src="gorilla.js"></script>
-    // <script type="text/javascript" src='powerups.js'></script>
+    <script type="text/javascript" src="gun_methods.js"></script>
+    <script type="text/javascript" src="enemy.js"></script>
+    <script type="text/javascript" src="gorilla.js"></script>
+    <script type="text/javascript" src="powerups.js"></script>
+    <script type="text/javascript" src="panther.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -35,9 +36,11 @@ function preload() {
     game.load.image('gun_0', 'assets/gun_0.png');
     game.load.image('gun_1', 'assets/gun_1.png');
     game.load.image('gun_2', 'assets/gun_2.png');
+    game.load.image('panther', 'assets/panther.png');
     game.renderer.renderSession.roundPixels = true;
 
     weapons = [];
+    panthers = [];
 
 }
 
@@ -104,7 +107,13 @@ function create() {
     var dual = change_gun(guns, 1, 300, 700);
     var auto = change_gun(guns, 2, 700, 300);
     gunText = game.add.text(400, 16, 'Current Gun: ' + current_weapon, { fontSize: '32px', fill: '#000' });
-    
+
+    //Panther
+    Panthers = game.add.group();
+    for (var i = 0; i < 2; i++) {
+        panthers[i] = Panther(Panthers, 200, 200+i*100, player);
+    }
+    Panthers.forEach(create, this);
 }
 
 function update() {
