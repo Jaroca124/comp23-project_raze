@@ -11,10 +11,11 @@ function Panther(group, x, y, sprite) {
     panther.position.y = y;
     panther.scale.setTo(0.5, 0.5);
     panther.anchor.setTo(0.5, 0.5);
+    panther.enablebody = true;
     
     game.physics.enable(panther, Phaser.Physics.ARCADE);
     panther.angle;
-    panther.speed = 300;
+    panther.speed = 700;
     panther.player = sprite;
     //Panther.set_angle(panther);
     return panther;

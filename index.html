@@ -110,7 +110,7 @@ function create() {
 
     //Panther
     Panthers = game.add.group();
-    for (var i = 0; i < 1; i++) {
+    for (var i = 0; i < 2; i++) {
         panthers[i] = Panther(Panthers, 600, 0+i*100, player);
 	panther_create(panthers[i]);
     }
@@ -197,7 +197,9 @@ function update() {
         game.physics.arcade.overlap(player, gun, c_Gun, null, this);
     });
 
-	panther_update(panthers[0]);
+	for (var i = 0; i < 2; i++) {
+		panther_update(panthers[i]);
+	}
 }
 
 function c_Health(player, collider) {
