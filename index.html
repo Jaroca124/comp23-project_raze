@@ -91,6 +91,7 @@ function create() {
     health_powerups = game.add.group();
     healthText = game.add.text(16, 16, 'Health: ' + health, { fontSize: '32px', fill: '#000' });
     gunText = game.add.text(400, 16, 'Current Gun: ' + current_weapon, { fontSize: '32px', fill: '#000' });
+    
     var powerup_queue = create_queue(3, health_powerups);
 
         /*
