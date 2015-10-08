@@ -83,9 +83,9 @@ function create() {
     gorillas = game.add.group();
     gorillas.enableBody = true;
     //viewGroup = game.add.group();
-
-    var gorilla = Gorilla(gorillas, 300, 300, player);
-    console.log(gorilla);
+    for (var j = 0; j < 3; j++) {
+        var gorilla = Gorilla(gorillas, 300 + 100*j, 300 + 100*j, player);
+    }
 
     //Bind shot to spacebar
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
@@ -111,9 +111,14 @@ function create() {
 }
 
 function update() {
+
+    if (ammo < 1) {
+        ammo = ammo + 1;
+    }
+
     if (health <= 0) {
         player.kill(true);
-        restart();
+        gameoverText = game.add.text(300, 300, 'GAME OVER', { fontSize: '120px', fill: '#000' });
     }
     var mX = game.input.mousePointer.x;
     var mY = game.input.mousePointer.y;
@@ -125,23 +130,23 @@ function update() {
     if (wasd.left.isDown)
     {
         //  Move to the left
-        player.body.velocity.x = -150;
+        player.body.velocity.x = -400;
 
         //player.animations.play('left');
     }
     if (wasd.right.isDown)
     {
         //  Move to the right
-        player.body.velocity.x = 150;
+        player.body.velocity.x = 400;
 
         //player.animations.play('right');
     }
     if (wasd.up.isDown) {
-        player.body.velocity.y = -150;   
+        player.body.velocity.y = -400;   
     }
 
     if (wasd.down.isDown) {
-        player.body.velocity.y = 150;    
+        player.body.velocity.y = 400;    
     }
     
     // Manage guns
@@ -222,11 +227,9 @@ function update() {
 function check_collide(x,y){
 	
 }
-function collide2(x, y){
-	console.log("collide2");
+function collide2(x, y) {
     y.health--;
     x.kill(true);
-    console.log(y.health);
     if (y.health <= 0){
        y.kill(true);
     }
@@ -234,6 +237,7 @@ function collide2(x, y){
 function collide (x, y){
     health -= 10;
     healthText.text = 'Health: ' + health;
+
 }
 function c_Health(player, collider) {
     health += collider.collide();
