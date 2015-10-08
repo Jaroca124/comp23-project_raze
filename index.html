@@ -8,6 +8,7 @@
     <script type="text/javascript" src="enemy.js"></script>
     <script type="text/javascript" src="gorilla.js"></script>
     <script type="text/javascript" src='powerups.js'></script>
+    <script type="text/javascript" src='powerup_queue.js'></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -86,23 +87,30 @@ function create() {
         var gorilla = Gorilla(gorillas, 300 + 100*j, 300 + 100*j, player);
     }
 
-    // Health
+    // Queues
     health_powerups = game.add.group();
-    for (var i = 0; i < 3; i++) {
-        var health_objects = Health(health_powerups, 75, 250 + i*50, 250 + i*100);
-    }
     healthText = game.add.text(16, 16, 'Health: ' + health, { fontSize: '32px', fill: '#000' });
-    
-    // Guns
-    guns = game.add.group();
-    var single = change_gun(guns, 0, 400, 400);
-    var dual = change_gun(guns, 1, 300, 700);
-    var auto = change_gun(guns, 2, 700, 300);
     gunText = game.add.text(400, 16, 'Current Gun: ' + current_weapon, { fontSize: '32px', fill: '#000' });
+    var powerup_queue = create_queue(3, health_powerups);
+
+        /*
+        // Health
+        health_powerups = game.add.group();
+        for (var i = 0; i < 3; i++) {
+            var health_objects = Health(health_powerups, 75, 250 + i*50, 250 + i*100);
+        }
+        healthText = game.add.text(16, 16, 'Health: ' + health, { fontSize: '32px', fill: '#000' });
+        
+        // Guns
+        guns = game.add.group();
+        var single = change_gun(guns, 0, 400, 400);
+        var dual = change_gun(guns, 1, 300, 700);
+        var auto = change_gun(guns, 2, 700, 300);
+        gunText = game.add.text(400, 16, 'Current Gun: ' + current_weapon, { fontSize: '32px', fill: '#000' });
+        */
     
-    //Ammo
+    // Ammo
     ammoText = game.add.text(16, 32, 'Ammo: ' + ammo, { fontSize: '32px', fill: '#000' });
-    
     
 }
 function update() {
