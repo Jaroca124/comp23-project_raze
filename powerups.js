@@ -34,3 +34,12 @@ function change_gun(group, gun_value, x, y) {
 		return gun_value;
 	};
 }
+
+function create_powerup(type, group) {
+	if (type == 'health') {
+	    var health_values = [25, 50, 75];
+		var index = Math.floor((Math.random() * 3));
+	    var health_object = Health(group, health_values[index], 250 + index*5, 250 + index + 100);
+	    return health_object;
+	}
+}
