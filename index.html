@@ -113,7 +113,13 @@ function create() {
 function update() {
 
     if (ammo < 1) {
-        ammo = ammo + 1;
+        if (current_weapon > 0) {
+            current_weapon--;
+            ammo = 200;
+        }
+        else {
+            ammo = 200;
+        }
     }
 
     if (health <= 0) {
