@@ -125,8 +125,6 @@ function create_health(group) {
 function update() {
 
     seconds = Math.floor(this.time.totalElapsedSeconds());
-    console.log(seconds);
-    console.log(lastSpawn);
     if(lastSpawn != seconds && seconds % 5 == 0){
         var new_health = create_health(health_powerups);
         lastSpawn = seconds;

@@ -39,7 +39,8 @@ function create_powerup(type, group) {
 	if (type == 'health') {
 	    var health_values = [25, 50, 75];
 		var index = Math.floor((Math.random() * 3));
-	    var health_object = Health(group, health_values[index], 250 + index*5, 250 + index + 100);
+		var random_position = Math.floor((Math.random() * 10) + 1);
+	    var health_object = Health(group, health_values[index], ((250 + (random_position * 200)) % 800), ((250 * (random_position * random_position)) % 600));
 	    return health_object;
 	}
 }
