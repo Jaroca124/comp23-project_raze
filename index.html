@@ -79,7 +79,7 @@ function create() {
     // gorilla = Gorilla(gorillas, 100, 100);
 
     var bg = game.add.tileSprite(0, 0, 800,600, 'grass');
-    var rock_test = game.add.sprite(50, 50, 'rock.png');
+    //var rock_test = game.add.sprite(50, 50, 'rock');
 
 
     // LEFTOVER FROM IMGS: The player and its settings
@@ -110,10 +110,14 @@ function create() {
 
     //Panther
     Panthers = game.add.group();
-    for (var i = 0; i < 2; i++) {
-        panthers[i] = Panther(Panthers, 200, 200+i*100, player);
+    for (var i = 0; i < 1; i++) {
+        panthers[i] = Panther(Panthers, 600, 0+i*100, player);
+	panther_create(panthers[i]);
     }
-    Panthers.forEach(create, this);
+    console.log(panthers[0].position);
+    console.log(player.position);
+    console.log(panthers[0].angle);
+    //panther_create(panthers[0]);
 }
 
 function update() {
@@ -192,6 +196,8 @@ function update() {
     guns.forEach(function(gun) {
         game.physics.arcade.overlap(player, gun, c_Gun, null, this);
     });
+
+	panther_update(panthers[0]);
 }
 
 function c_Health(player, collider) {
@@ -206,6 +212,31 @@ function c_Gun(player, collider) {
 function collisionHandler(player, collider) {
     collider.collide();
 }
+
+function panther_create(group) {
+    console.log("ran create");
+    panther_set_angle(group);
+};
+
+function panther_set_angle(group) {
+    console.log(group);
+    group.angle = Math.atan2(player.position.y-group.position.y,
+			     player.position.x-group.position.x);
+    //console.log(group.position);
+    //console.log(player.position);
+};
+
+function panther_chase(group) {
+    group.body.velocity.x = group.speed * Math.cos(group.angle);
+    group.body.velocity.y = group.speed * Math.sin(group.angle);
+    var debug = Math.cos(group.angle);
+    //console.log(group.angle);
+};
+
+function panther_update(group) {
+    //console.log("running update");
+    panther_chase(group);
+};
 
 </script>
 

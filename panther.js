@@ -6,37 +6,37 @@ Panther.prototype.force = {x:0.0, y:0.0};
 
 
 function Panther(group, x, y, sprite) {
-    var panther = group.create(0, 0, 'panther', null);
+    var panther = group.create(0, 0, 'panther');
     panther.position.x = x;
     panther.position.y = y;
     panther.scale.setTo(0.5, 0.5);
     panther.anchor.setTo(0.5, 0.5);
     
     game.physics.enable(panther, Phaser.Physics.ARCADE);
-    var angle;
-    var speed = 100;
-    var player = sprite;
-    console.log("created");
+    panther.angle;
+    panther.speed = 300;
+    panther.player = sprite;
+    //Panther.set_angle(panther);
     return panther;
-}
-
-Panther.prototype.create = function() {
+};
+/*
+function panther_create(group) {
     console.log("ran create");
-    this.set_angle();
-}
+    this.panther_set_angle();
+};
 
-Panther.prototype.set_angle = function() {
-    console.log(this);
-    angle = Math.angleBetween(this.position.x, this.position.y,
+function panther_set.angle(group) {
+    console.log(group);
+    angle = Math.angleBetween(group.position.x, group.position.y,
 			      player.position.x, player.position.y);
-}
+};
 
-Panther.prototype.chase = function() {
-    this.body.velocity.x = speed * Math.sin(angle);
-    this.body.velocity.y = speed * Math.cos(angle);
-}
+function panther_chase(group) {
+    group.body.velocity.x = speed * Math.sin(angle);
+    group.body.velocity.y = speed * Math.cos(angle);
+};
 
-Panther.prototype.update = function() {
+function panther_update(group) {
     console.log("running update");
-    this.chase();
-}
+    this.chase(group);
+};*/
