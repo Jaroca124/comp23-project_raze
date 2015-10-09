@@ -8,7 +8,6 @@
     <script type="text/javascript" src="enemy.js"></script>
     <script type="text/javascript" src="gorilla.js"></script>
     <script type="text/javascript" src='powerups.js'></script>
-    <script type="text/javascript" src='powerup_queue.js'></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -51,7 +50,7 @@ var current_weapon = 0;
 var fired = false;
 var semi = true;
 var health = 100;
-var ammo = 200;
+var ammo = 10;
 var time;
 var last_health_spawn = 0;
 var last_weapon_spawn = 0;
@@ -92,39 +91,23 @@ function create() {
         var gorilla = Gorilla(gorillas, 300 + 100*j, 300 + 100*j, player);
     }
 
-    // Queues
+    // Health
     health_powerups = game.add.group();
     healthText = game.add.text(16, 16, 'Health: ' + health, { fontSize: '32px', fill: '#000' });
-    gunText = game.add.text(400, 16, 'Current Gun: ' + current_weapon, { fontSize: '32px', fill: '#000' });
 
-        /*
-        // Health
-        health_powerups = game.add.group();
-        for (var i = 0; i < 3; i++) {
-            var health_objects = Health(health_powerups, 75, 250 + i*50, 250 + i*100);
-        }
-        healthText = game.add.text(16, 16, 'Health: ' + health, { fontSize: '32px', fill: '#000' });
-        */
-        // Guns
-        guns = game.add.group();
-        //var single = change_gun(guns, 0, 400, 400);
-        //var dual = change_gun(guns, 1, 300, 400);
-        //var auto = change_gun(guns, 2, 700, 300);
-        gunText = game.add.text(400, 16, 'Current Gun: ' + current_weapon, { fontSize: '32px', fill: '#000' });
+    // Guns
+    guns = game.add.group();
+    gunText = game.add.text(400, 16, 'Current Gun: ' + current_weapon, { fontSize: '32px', fill: '#000' });
     
     // Ammo
     ammoText = game.add.text(16, 32, 'Ammo: ' + ammo, { fontSize: '32px', fill: '#000' });
 
-    //setInterval(create_health(health_powerups), 1000);
+    reloadText = game.add.text(300, 300, '', { fontSize: '120px', fill: '#000', visible: false});
 }
 
-function create_item(group, type) {
-    var item = create_powerup(type, group, current_weapon);
-    if (type == 'health') {
-        health_count++;    
-    }
-    return item;
-}
+var stashed;
+var stashed_check = false;
+var reloadText;
 
 function update() {
 
@@ -141,25 +124,40 @@ function update() {
         }
     }
 
+    // Manage Ammo
     if (ammo < 1) {
         if (current_weapon > 0) {
             current_weapon--;
             ammo = 200;
+            ammoText.text = 'Ammo: ' + ammo;
+            guns.forEach(function(gun) {
+                gun.kill(true);
+            });
         }
         else {
-            ammo = 200;
+            if (!stashed_check) {
+                stashed_check = true;
+                stashed = game.time.now;
+            }
+            reload();
         }
     }
+
+    // Player Health, Game Over
     if (health <= 0) {
         player.kill(true);
         gameoverText = game.add.text(300, 300, 'GAME OVER', { fontSize: '120px', fill: '#000' });
     }
+
+
+    // Mouse Coordinates
     var mX = game.input.mousePointer.x;
     var mY = game.input.mousePointer.y;
-    /* look at the mouse */
     player.angle = Math.atan2(player.position.x - mX, player.position.y - mY)  * -57.2957795;
     player.body.velocity.x = 0;
     player.body.velocity.y = 0;
+    
+    // Player Movement
     if (wasd.left.isDown)
     {
         //  Move to the left
@@ -189,13 +187,10 @@ function update() {
     else {
         semi = false;
     }
-    //Fire Gun
-    /*if (game.input.activePointer.isDown) {
-        determine_gun(semi, current_weapon);
-    }*/
+
     // Pistol
     if (game.input.activePointer.isDown && semi == true && current_weapon == 0) { 
-        if (!fired) {    
+        if (!fired && ammo > 0) {    
             weapons[0].fire(player, false);
             ammo--;
             ammoText.text = 'Ammo: ' + ammo;
@@ -203,7 +198,7 @@ function update() {
         }
     }
     // Dual Wield
-    else if (game.input.activePointer.isDown && semi == true && current_weapon == 1) { 
+    else if (game.input.activePointer.isDown && semi == true && current_weapon == 1 && ammo > 0) { 
         if (!fired) {    
             weapons[0].fire(player, true);
             ammo--;
@@ -213,7 +208,7 @@ function update() {
         }
     }
     // Automatic
-    else if (game.input.activePointer.isDown && semi == false) {
+    else if (game.input.activePointer.isDown && semi == false && ammo > 0) {
         ammo--;
         ammoText.text = 'Ammo: ' + ammo;
         weapons[0].fire(player, false);
@@ -221,7 +216,7 @@ function update() {
     else {
         fired = false;
     }
-//     game.physics.arcade.overlap(player, gorilla, collisionHandler, null, this);
+
     health_powerups.forEach(function(health) {
         game.physics.arcade.overlap(player, health, c_Health, null, this);
     });
@@ -244,15 +239,30 @@ function update() {
         
         gorilla.angle++;
     });
+
+    // Player Physics
     game.physics.arcade.collide(player, gorillas);
     game.physics.arcade.overlap(player, gorillas, collide, null, this);
-    //game.physics.arcade.collide(weapons[0].children[0], gorillas);
-    //game.physics.arcade.overlap(weapons[0].children[0], gorillas, collide2, null, this);
-    //console.log(weapons[0]);
 }
-function check_collide(x,y){
-    
+
+function reload() {
+    if (stashed_check) {
+        reloadText.text = 'RELOADING';
+    }
+    if (game.time.now > stashed + 5000) {
+        ammo = 200;
+        ammoText.text = 'Ammo: ' + ammo;
+        stashed_check = false;
+        console.log(reloadText);
+        reloadText.text = '';
+    }
 }
+
+function collide () {
+    health -= 10;
+    healthText.text = 'Health: ' + health;
+}
+
 function collide2(x, y) {
     y.health--;
     x.kill(true);
@@ -260,21 +270,37 @@ function collide2(x, y) {
        y.kill(true);
     }
 }
-function collide (x, y){
-    health -= 10;
-    healthText.text = 'Health: ' + health;
-}
+
 function c_Health(player, collider) {
     health += collider.collide();
+    if (health > 200) {
+        health = 200;
+    }
     healthText.text = 'Health: ' + health;
 }
+
 function c_Gun(player, collider) {
+    guns.forEach(function(gun) {
+        gun.kill(true);
+    });
+    ammo = 200;
+    ammoText.text = 'Ammo: ' + ammo;
     current_weapon = collider.collide();
     gunText.text = 'Current Gun: ' + current_weapon;
 }
+
 function collisionHandler(player, collider) {
     collider.collide();
 }
+
+function create_item(group, type) {
+    var item = create_powerup(type, group, current_weapon);
+    if (type == 'health') {
+        health_count++;    
+    }
+    return item;
+}
+
 </script>
 
 </body>
