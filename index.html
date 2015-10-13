@@ -18,8 +18,12 @@
 <body>
 
 <script type="text/javascript">
+<<<<<<< HEAD
 var game = new Phaser.Game(800, 600, Phaser.AUTO, "game", { preload: preload, create: create, collide: collide, collide2: collide2, update: update });
 
+=======
+var game = new Phaser.Game(800, 600, Phaser.AUTO, "game", { preload: preload, create: create, collide: collide, collide2: collide2, enemy_collide: enemy_collide, update: update });
+>>>>>>> 7ca021707a73a6d0c698d1335e65e269e3680416
 function preload() {
     game.load.image('sky', 'assets/sky.png');
     game.load.image('ground', 'assets/platform.png');
@@ -297,7 +301,10 @@ function update() {
         game.physics.arcade.overlap(player, gun, c_Gun, null, this);
     });
     gorillas.forEach(function(gorilla) {
-        if (player.position.x > gorilla.position.x){
+
+
+
+        /*if (player.position.x > gorilla.position.x){
             gorilla.position.x += .05;
         }
         if (player.position.y > gorilla.position.y){
@@ -309,8 +316,14 @@ function update() {
         if (player.position.y < gorilla.position.y){
             gorilla.position.y -= .05;
         }
+        */
+        game.physics.arcade.collide(gorillas, gorillas);
+        game.physics.arcade.overlap(gorillas, gorillas, enemy_collide, null, this);
+        gorilla.angle = game.physics.arcade.accelerateToObject(gorilla, player, 200, 200, 200);
         
         gorilla.angle++;
+        game.physics.arcade.collide(player, gorillas);
+        game.physics.arcade.overlap(player, gorillas, collide, null, this);
     });
 
     // Player Physics
@@ -330,12 +343,19 @@ function reload() {
         reloadText.text = '';
     }
 }
+<<<<<<< HEAD
 
 function collide() {
     health -= 10;
     healthText.text = 'Health: ' + health;
 }
 
+=======
+function enemy_collide(g1, g2) {
+    g1.body.bounce.y = 1;
+    g1.body.bounce.x = 1;
+}
+>>>>>>> 7ca021707a73a6d0c698d1335e65e269e3680416
 function collide2(x, y) {
     y.health--;
     x.kill(true);
