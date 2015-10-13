@@ -290,6 +290,7 @@ function update() {
         fired = false;
     }
 
+    // Check Collisions
     health_powerups.forEach(function(health) {
         game.physics.arcade.overlap(player, health, c_Health, null, this);
     });
