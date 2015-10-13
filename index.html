@@ -39,6 +39,8 @@ function preload() {
     game.load.image('header', 'assets/header.png');
     game.load.image('tree1', 'assets/tree_assets/tree1.png');
     game.load.image('tree2', 'assets/tree_assets/tree2.png');
+    game.load.image('rock1', 'assets/rock1.png');
+    game.load.image('rock2', 'assets/rock2.png');
     game.renderer.renderSession.roundPixels = true;
     weapons = [];
 }
@@ -90,7 +92,7 @@ function create() {
             bounds2.body.immovable = true;
         }
         else if (i > 24 && i < 50) {
-            var bounds = edges.create((100 * (i - 25)) + 50, -10, 'tree1');
+            var bounds = edges.create((100 * (i - 25)) + 30, -10, 'tree1');
             var bounds2 = edges.create(100 * (i - 25), 60, 'tree2');
             bounds.enableBody = true;
             bounds2.enableBody = true;
@@ -99,7 +101,7 @@ function create() {
         }
         else if (i > 49 && i < 75) {
             var bounds = edges.create((100 * (i - 50)) + 50, 1400, 'tree1');
-            var bounds2 = edges.create((100 * (i - 50)), 1300, 'tree2');
+            var bounds2 = edges.create((100 * (i - 50)), 1350, 'tree2');
             bounds.enableBody = true;
             bounds2.enableBody = true;
             bounds.body.immovable = true;
@@ -113,12 +115,24 @@ function create() {
             bounds.body.immovable = true;
             bounds2.body.immovable = true;
         }
-
+    }
+    obstacles = game.add.group();
+    obstacles.enableBody = true;
+    for (i = 0; i < 10; i++) {
+        var rand = Math.floor((Math.random() * 3));
+        var rocks = obstacles.create((((rand * i * 58) + 324*i) % 1500), (((rand * i * 154) + 540*i) % 1500), 'rock1');
+        var rocks2 = obstacles.create((((rand * i * 23) + 989*i) % 1500), (((rand * i * 323) + 234* i) % 1500), 'rock2');
+        rocks.scale.setTo(.2, .2);
+        rocks2.scale.setTo(.2, .2);
+        rocks.enableBody = true;
+        rocks2.enableBody = true;
+        rocks.body.immovable = true;
+        rocks2.body.immovable = true;
     }
 
     // Initalizing Player
     player = game.add.sprite(game.world.centerX - 600, game.world.centerY - 200, 'player');
-    player.anchor.setTo(0.5, 0.5);
+    player.anchor.setTo(.5, .5);
     player.scale.setTo(2, 2);
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.force = {x:0.0, y:0.0};
@@ -162,6 +176,7 @@ var reloadText;
 function update() {
 
     game.physics.arcade.collide(player, edges);
+    game.physics.arcade.collide(player, obstacles);
 
     seconds = Math.floor(this.time.totalElapsedSeconds());
     if(last_health_spawn != seconds && seconds % 25 == 0){
@@ -215,14 +230,12 @@ function update() {
         //  Move to the left
         player.animations.play('walk', 25, true);
         player.body.velocity.x = -400;
-        //player.animations.play('left');
     }
     else if (wasd.right.isDown)
     {
         //  Move to the right
         player.animations.play('walk', 25, true);
         player.body.velocity.x = 400;
-        //player.animations.play('right');
     }
     else if (wasd.up.isDown) {
         player.animations.play('walk', 25, true);
@@ -318,7 +331,7 @@ function reload() {
     }
 }
 
-function collide () {
+function collide() {
     health -= 10;
     healthText.text = 'Health: ' + health;
 }

@@ -46,10 +46,10 @@ function create_powerup(type, group, current_weapon) {
 	if (type == 'gun') {
 		var random_position = Math.floor((Math.random() * 100) + 1);
 		if (current_weapon == 0) {
-			return change_gun(guns, 1, ((250 + (random_position * 400)) % 800), ((200 * (random_position * random_position)) % 600));
+			return change_gun(guns, 1, ((250 + (random_position * 600)) % 1500), ((323 * (random_position * random_position)) % 1500));
 		}
 		if (current_weapon == 1) {
-			return change_gun(guns, 2, ((250 + (random_position * 400)) % 800), ((200 * (random_position * random_position)) % 600));
+			return change_gun(guns, 2, ((250 + (random_position * 800)) % 1500), ((453 * (random_position * random_position)) % 1500));
 		}
 		else {
 			return null;
