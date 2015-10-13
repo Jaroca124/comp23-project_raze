@@ -322,19 +322,17 @@ function reload() {
         reloadText.text = '';
     }
 }
-<<<<<<< HEAD
 
 function collide() {
     health -= 10;
     healthText.text = 'Health: ' + health;
 }
 
-=======
 function enemy_collide(g1, g2) {
     g1.body.bounce.y = 1;
     g1.body.bounce.x = 1;
 }
->>>>>>> 7ca021707a73a6d0c698d1335e65e269e3680416
+
 function collide2(x, y) {
     y.health--;
     x.kill(true);
