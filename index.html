@@ -8,6 +8,7 @@
     <script type="text/javascript" src="enemy.js"></script>
     <script type="text/javascript" src="gorilla.js"></script>
     <script type="text/javascript" src='powerups.js'></script>
+    <link href='https://fonts.googleapis.com/css?family=Play' rel='stylesheet' type='text/css'>
     <style type="text/css">
         body {
             margin: 0;
@@ -26,7 +27,7 @@ function preload() {
     game.load.image('bullet4', 'assets/bullet4.png');
     game.load.image('rude', 'assets/rude.png');
     game.load.image('rock', 'assets/maps/rock.png');
-    game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+    game.load.spritesheet('player', 'assets/player_sheet.png', 32, 32, 14);
     game.load.image('gorilla', 'assets/Gorilla_1.png');
     game.load.image('grass', 'assets/maps/grass_small.png');
     game.load.image('health_25', 'assets/health_25.png');
@@ -35,6 +36,9 @@ function preload() {
     game.load.image('gun_0', 'assets/gun_0.png');
     game.load.image('gun_1', 'assets/gun_1.png');
     game.load.image('gun_2', 'assets/gun_2.png');
+    game.load.image('header', 'assets/header.png');
+    game.load.image('tree1', 'assets/tree_assets/tree1.png');
+    game.load.image('tree2', 'assets/tree_assets/tree2.png');
     game.renderer.renderSession.roundPixels = true;
     weapons = [];
 }
@@ -60,8 +64,9 @@ var current_weapon_powerup;
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     this.cursors = game.input.keyboard.createCursorKeys();
+    game.world.setBounds(0, 0, 1500, 1500);
     
-    // Mapping new controls
+    // Mapping New Controls
     wasd = {
         up: game.input.keyboard.addKey(Phaser.Keyboard.W),
         down: game.input.keyboard.addKey(Phaser.Keyboard.S),
@@ -70,13 +75,59 @@ function create() {
     };
 
     // Background
-    var bg = game.add.tileSprite(0, 0, 800,600, 'grass');
+    var bg = game.add.tileSprite(0, 0, 1500, 1500, 'grass');
+    var header = game.add.sprite(0, 0, 'header');
+    
+    edges = game.add.group();
+    edges.enableBody = true;
+    for (i = 0; i < 100; i++) {
+        if (i < 25) {
+            var bounds = edges.create(-40, (100 * i) + -10, 'tree1');
+            var bounds2 = edges.create(-40, 100 * i, 'tree2');
+            bounds.enableBody = true;
+            bounds2.enableBody = true;
+            bounds.body.immovable = true;
+            bounds2.body.immovable = true;
+        }
+        else if (i > 24 && i < 50) {
+            var bounds = edges.create((100 * (i - 25)) + 50, -10, 'tree1');
+            var bounds2 = edges.create(100 * (i - 25), 60, 'tree2');
+            bounds.enableBody = true;
+            bounds2.enableBody = true;
+            bounds.body.immovable = true;
+            bounds2.body.immovable = true;
+        }
+        else if (i > 49 && i < 75) {
+            var bounds = edges.create((100 * (i - 50)) + 50, 1400, 'tree1');
+            var bounds2 = edges.create((100 * (i - 50)), 1300, 'tree2');
+            bounds.enableBody = true;
+            bounds2.enableBody = true;
+            bounds.body.immovable = true;
+            bounds2.body.immovable = true;
+        }
+        else if (i > 74 && i < 100) {
+            var bounds = edges.create(1400, (100 * (i - 75)) + -10, 'tree1');
+            var bounds2 = edges.create(1400, 100 * (i - 75), 'tree2');
+            bounds.enableBody = true;
+            bounds2.enableBody = true;
+            bounds.body.immovable = true;
+            bounds2.body.immovable = true;
+        }
+
+    }
 
     // Initalizing Player
-    player = game.add.sprite(32, game.world.height - 150, 'rude');
+    player = game.add.sprite(game.world.centerX - 600, game.world.centerY - 200, 'player');
     player.anchor.setTo(0.5, 0.5);
+    player.scale.setTo(2, 2);
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.force = {x:0.0, y:0.0};
+    player.animations.add('walk');
+    player.body.collideWorldBounds = true;
+
+    // Camera
+    game.camera.follow(player);
+
 
     // Use Spacebar to Shoot
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
@@ -87,13 +138,13 @@ function create() {
     // Add Gorilla Enemies
     gorillas = game.add.group();
     gorillas.enableBody = true;
-    for (var j = 0; j < 3; j++) {
+    for (var j = 0; j < 10; j++) {
         var gorilla = Gorilla(gorillas, 300 + 100*j, 300 + 100*j, player);
     }
 
     // Health
     health_powerups = game.add.group();
-    healthText = game.add.text(16, 16, 'Health: ' + health, { fontSize: '32px', fill: '#000' });
+    healthText = game.add.text(16, 12, 'Health: ' + health, { fontSize: '64px', fill: 'white'});
 
     // Guns
     guns = game.add.group();
@@ -101,7 +152,6 @@ function create() {
     
     // Ammo
     ammoText = game.add.text(16, 32, 'Ammo: ' + ammo, { fontSize: '32px', fill: '#000' });
-
     reloadText = game.add.text(300, 300, '', { fontSize: '120px', fill: '#000', visible: false});
 }
 
@@ -111,13 +161,15 @@ var reloadText;
 
 function update() {
 
+    game.physics.arcade.collide(player, edges);
+
     seconds = Math.floor(this.time.totalElapsedSeconds());
-    if(last_health_spawn != seconds && seconds % 5 == 0){
+    if(last_health_spawn != seconds && seconds % 25 == 0){
         var new_health = create_item(health_powerups, 'health');
         last_health_spawn = seconds;
     }
 
-    if(last_weapon_spawn != seconds && seconds % 5 == 0){
+    if(last_weapon_spawn != seconds && seconds % 30 == 0){
         if (current_weapon < 2) {
             var new_weapon = create_item(guns, 'gun');
             last_weapon_spawn = seconds;
@@ -153,7 +205,7 @@ function update() {
     // Mouse Coordinates
     var mX = game.input.mousePointer.x;
     var mY = game.input.mousePointer.y;
-    player.angle = Math.atan2(player.position.x - mX, player.position.y - mY)  * -57.2957795;
+    player.angle = (Math.atan2(player.position.x - mX, player.position.y - mY)  * -57.2957795) + 180;
     player.body.velocity.x = 0;
     player.body.velocity.y = 0;
     
@@ -161,20 +213,28 @@ function update() {
     if (wasd.left.isDown)
     {
         //  Move to the left
+        player.animations.play('walk', 25, true);
         player.body.velocity.x = -400;
         //player.animations.play('left');
     }
-    if (wasd.right.isDown)
+    else if (wasd.right.isDown)
     {
         //  Move to the right
+        player.animations.play('walk', 25, true);
         player.body.velocity.x = 400;
         //player.animations.play('right');
     }
-    if (wasd.up.isDown) {
+    else if (wasd.up.isDown) {
+        player.animations.play('walk', 25, true);
         player.body.velocity.y = -400;   
     }
-    if (wasd.down.isDown) {
+    else if (wasd.down.isDown) {
+        player.animations.play('walk', 25, true);
         player.body.velocity.y = 400;    
+    }
+    else {
+        player.animations.stop();
+        player.frame = 1;
     }
     
     // Manage guns
@@ -280,6 +340,7 @@ function c_Health(player, collider) {
 }
 
 function c_Gun(player, collider) {
+    reloadText.text = '';
     guns.forEach(function(gun) {
         gun.kill(true);
     });
