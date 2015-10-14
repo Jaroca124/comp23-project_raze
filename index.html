@@ -41,6 +41,11 @@ function preload() {
     game.load.image('tree2', 'assets/tree_assets/tree2.png');
     game.load.image('rock1', 'assets/rock1.png');
     game.load.image('rock2', 'assets/rock2.png');
+    game.load.image('healthbar', 'assets/health_bar.png');
+    game.load.image('healthbar_bg', 'assets/health_bar_background.png');
+    game.load.image('ammo_circle', 'assets/ammo_circle.png');
+    game.load.image('heart', 'assets/heart.png');
+    game.load.image('respawn', 'assets/respawn.png');
     game.renderer.renderSession.roundPixels = true;
     weapons = [];
 }
@@ -61,6 +66,10 @@ var time;
 var last_health_spawn = 0;
 var last_weapon_spawn = 0;
 var current_weapon_powerup;
+var ammo_circle;
+var healthbar;
+var MAX_LIVES = 3;
+var lives = 3;
 
 
 function create() {
@@ -78,8 +87,21 @@ function create() {
 
     // Background
     var bg = game.add.tileSprite(0, 0, 1500, 1500, 'grass');
-    var header = game.add.sprite(0, 0, 'header');
     
+    // Boundaries and Obstacles
+    obstacles = game.add.group();
+    obstacles.enableBody = true;
+    for (i = 0; i < 10; i++) {
+        var rand = Math.floor((Math.random() * 3));
+        var rocks = obstacles.create((((rand * i * 58) + 324*i) % 1500), (((rand * i * 154) + 540*i) % 1500), 'rock1');
+        var rocks2 = obstacles.create((((rand * i * 23) + 989*i) % 1500), (((rand * i * 323) + 234* i) % 1500), 'rock2');
+        rocks.scale.setTo(.2, .2);
+        rocks2.scale.setTo(.2, .2);
+        rocks.enableBody = true;
+        rocks2.enableBody = true;
+        rocks.body.immovable = true;
+        rocks2.body.immovable = true;
+    }
     edges = game.add.group();
     edges.enableBody = true;
     for (i = 0; i < 100; i++) {
@@ -116,19 +138,6 @@ function create() {
             bounds2.body.immovable = true;
         }
     }
-    obstacles = game.add.group();
-    obstacles.enableBody = true;
-    for (i = 0; i < 10; i++) {
-        var rand = Math.floor((Math.random() * 3));
-        var rocks = obstacles.create((((rand * i * 58) + 324*i) % 1500), (((rand * i * 154) + 540*i) % 1500), 'rock1');
-        var rocks2 = obstacles.create((((rand * i * 23) + 989*i) % 1500), (((rand * i * 323) + 234* i) % 1500), 'rock2');
-        rocks.scale.setTo(.2, .2);
-        rocks2.scale.setTo(.2, .2);
-        rocks.enableBody = true;
-        rocks2.enableBody = true;
-        rocks.body.immovable = true;
-        rocks2.body.immovable = true;
-    }
 
     // Initalizing Player
     player = game.add.sprite(game.world.centerX - 600, game.world.centerY - 200, 'player');
@@ -156,17 +165,48 @@ function create() {
         var gorilla = Gorilla(gorillas, 300 + 100*j, 300 + 100*j, player);
     }
 
+    var header = game.add.sprite(0, 0, 'header');
+    header.fixedToCamera = true;
+
     // Health
     health_powerups = game.add.group();
-    healthText = game.add.text(16, 12, 'Health: ' + health, { fontSize: '64px', fill: 'white'});
+    var healthbar_bg = game.add.sprite(0, 2, 'healthbar_bg');
+    healthbar_bg.fixedToCamera = true;
+    healthbar = game.add.sprite(2.75, 6, 'healthbar');
+    healthbar.fixedToCamera = true;
+    healthbar.cropEnabled = true;
+    healthText = game.add.text(77.5, 10, health, { fontSize: '50px', fill: 'white'});
+    healthText.fixedToCamera = true;
+
+    //cropRect = new Phaser.Rectangle(0, 0, 70, 32.5);
+    //healthbar.crop(cropRect);
 
     // Guns
     guns = game.add.group();
     gunText = game.add.text(400, 16, 'Current Gun: ' + current_weapon, { fontSize: '32px', fill: '#000' });
+    gunText.fixedToCamera = true;
     
     // Ammo
-    ammoText = game.add.text(16, 32, 'Ammo: ' + ammo, { fontSize: '32px', fill: '#000' });
-    reloadText = game.add.text(300, 300, '', { fontSize: '120px', fill: '#000', visible: false});
+    reloadText = game.add.text(320, 400, '', { fontSize: '120px', fill: 'white', visible: false});
+    reloadText.fixedToCamera = true;
+    ammo_circle = game.add.sprite(730, 525, 'ammo_circle');
+    ammo_circle.scale.setTo(.5, .5);
+    ammo_circle.anchor.set(0.5);
+    ammo_circle.fixedToCamera = true;
+    ammoText = game.add.text(730, 530, ammo, { fontSize: '64px', fill: 'white' });
+    ammoText.anchor.set(0.5);
+    ammoText.fixedToCamera = true;
+
+    // Lives
+    life1 = game.add.sprite(770, 25, 'heart');
+    life1.anchor.set(.5);
+    life1.fixedToCamera = true;
+    life2 = game.add.sprite(730, 25, 'heart');
+    life2.anchor.set(.5);
+    life2.fixedToCamera = true;
+    life3 = game.add.sprite(690, 25, 'heart');
+    life3.anchor.set(.5);
+    life3.fixedToCamera = true;
 }
 
 var stashed;
@@ -177,6 +217,12 @@ function update() {
 
     game.physics.arcade.collide(player, edges);
     game.physics.arcade.collide(player, obstacles);
+
+    // Adjust Ammo Text
+    ammoText.x = Math.floor(ammo_circle.x + ammo_circle.width / 2);
+    ammoText.y = Math.floor(ammo_circle.y + ammo_circle.height / 2);
+
+    //cropRect.x = (health / 200) * healthbar.width;
 
     seconds = Math.floor(this.time.totalElapsedSeconds());
     if(last_health_spawn != seconds && seconds % 25 == 0){
@@ -196,7 +242,7 @@ function update() {
         if (current_weapon > 0) {
             current_weapon--;
             ammo = 200;
-            ammoText.text = 'Ammo: ' + ammo;
+            ammoText.text = ammo;
             guns.forEach(function(gun) {
                 gun.kill(true);
             });
@@ -266,7 +312,7 @@ function update() {
         if (!fired && ammo > 0) {    
             weapons[0].fire(player, false);
             ammo--;
-            ammoText.text = 'Ammo: ' + ammo;
+            ammoText.text = ammo;
             fired = true;
         }
     }
@@ -276,14 +322,14 @@ function update() {
             weapons[0].fire(player, true);
             ammo--;
             ammo--;
-            ammoText.text = 'Ammo: ' + ammo;
+            ammoText.text = ammo;
             fired = true;
         }
     }
     // Automatic
     else if (game.input.activePointer.isDown && semi == false && ammo > 0) {
         ammo--;
-        ammoText.text = 'Ammo: ' + ammo;
+        ammoText.text = ammo;
         weapons[0].fire(player, false);
     }
     else {
@@ -317,16 +363,15 @@ function reload() {
     }
     if (game.time.now > stashed + 5000) {
         ammo = 200;
-        ammoText.text = 'Ammo: ' + ammo;
+        ammoText.text = ammo;
         stashed_check = false;
-        console.log(reloadText);
         reloadText.text = '';
     }
 }
 
 function collide() {
     health -= 10;
-    healthText.text = 'Health: ' + health;
+    healthText.text = health;
 }
 
 function enemy_collide(g1, g2) {
@@ -347,7 +392,7 @@ function c_Health(player, collider) {
     if (health > 200) {
         health = 200;
     }
-    healthText.text = 'Health: ' + health;
+    healthText.text = health;
 }
 
 function c_Gun(player, collider) {
@@ -356,7 +401,7 @@ function c_Gun(player, collider) {
         gun.kill(true);
     });
     ammo = 200;
-    ammoText.text = 'Ammo: ' + ammo;
+    ammoText.text = ammo;
     current_weapon = collider.collide();
     gunText.text = 'Current Gun: ' + current_weapon;
 }
