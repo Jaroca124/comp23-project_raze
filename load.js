@@ -1,6 +1,6 @@
 var loadState = {
 	preload: function() {
-		var loadingLabel = game.add.text(80, 150, 'loading...', {font: '30px Courier', fill: 'white'});
+		var loadingLabel = game.add.text(400, 800, 'Loading...', {font: '64px Ariel', fill: 'white'});
 		
 		// Loading Assets
 		game.load.image('sky', 'assets/sky.png');
@@ -28,6 +28,7 @@ var loadState = {
 	    game.load.image('ammo_circle', 'assets/ammo_circle.png');
 	    game.load.image('heart', 'assets/heart.png');
 	    game.load.image('respawn', 'assets/respawn.png');
+	    game.load.image('menu_background', 'assets/start_menu.png')
 	    //game.renderer.renderSession.roundPixels = true;
 	},
 
