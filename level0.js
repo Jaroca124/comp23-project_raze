@@ -1,32 +1,8 @@
-//  Load various functions and objects
-var platforms;
-var score = 0;
-var scoreText;
-var health_count = 0;
-
-// Pistol = 0, Dual = 1, automatic = 2
-var current_weapon = 0;
-var fired = false;
-var semi = true;
-var health = 0;
-var ammo = '0';
-var time;
-var last_health_spawn = 0;
-var last_weapon_spawn = 0;
-var current_weapon_powerup;
-var ammo_circle;
-var healthbar;
-var MAX_LIVES = 3;
-var lives = 3;
-var stashed;
-var stashed_check = false;
-var reloadText;
-weapons = [];
-var level_enemies;
-
 var level0State = {
 
     create: function() {
+        
+        health = 100;
         game.physics.startSystem(Phaser.Physics.ARCADE);
         this.cursors = game.input.keyboard.createCursorKeys();
         game.world.setBounds(0, 0, 1500, 1500);
@@ -45,6 +21,7 @@ var level0State = {
         // Boundaries and Obstacles
         obstacles = game.add.group();
         obstacles.enableBody = true;
+        
         
         edges = game.add.group();
         edges.enableBody = true;
@@ -100,18 +77,20 @@ var level0State = {
         }
 
         // Level Exit
-        exit = game.add.sprite(300, 710, 'level_exit');
-        game.physics.enable(exit, Phaser.Physics.ARCADE);
+        
+        //exit = game.add.sprite(300, 710, 'level_exit');
+        //game.physics.enable(exit, Phaser.Physics.ARCADE);
 
         // Initalizing Player
-        player = game.add.sprite(130, 250, 'player');
-        player.anchor.setTo(.5, .5);
-        player.scale.setTo(2, 2);
-        game.physics.enable(player, Phaser.Physics.ARCADE);
-        player.force = {x:0.0, y:0.0};
+        player = game.add.sprite(200, 270, 'rude');
+        player.anchor.setTo(1, 1);
+        player.scale.setTo(1, 1);
+        //game.physics.enable(player, Phaser.Physics.ARCADE);
+        //player.force = {x:0.0, y:0.0};
         player.animations.add('walk');
-        player.body.collideWorldBounds = true;
+        //player.body.collideWorldBounds = true;
 
+        /*
         // Camera
         game.camera.follow(player);
 
@@ -171,26 +150,32 @@ var level0State = {
         respawn_button.anchor.set(.5);
         respawn_button.fixedToCamera = true;
         respawn_button.visible = false;
+        console.log(player);
+        */
     },
 
     update: function() {
-
+        /*
+        console.log(player.alive);
         game.physics.arcade.collide(player, edges);
         game.physics.arcade.collide(player, obstacles);
-        game.physics.arcade.overlap(player, exit, load_level1, null, this);
+        
+        if (health == 100 && ammo == 200) {
+            game.physics.arcade.overlap(player, exit, load_level1, null, this);
+        }
 
         // Adjust Text
         ammoText.x = Math.floor(ammo_circle.x + ammo_circle.width / 2);
         ammoText.y = Math.floor(ammo_circle.y + ammo_circle.height / 2);
         gunText.x = Math.floor(ammo_circle.x + ammo_circle.width / 2);
         gunText.y = Math.floor(ammo_circle.y + ammo_circle.height / 2);
-
+        */
         // Mouse Coordinates
         var mX = game.input.mousePointer.x;
         var mY = game.input.mousePointer.y;
         player.angle = (Math.atan2(player.position.x - mX, player.position.y - mY)  * -57.2957795) + 180;
-        player.body.velocity.x = 0;
-        player.body.velocity.y = 0;
+        //player.body.velocity.x = 0;
+        //player.body.velocity.y = 0;
         
         // Player Movement
         if (wasd.left.isDown)
@@ -217,7 +202,7 @@ var level0State = {
             player.animations.stop();
             player.frame = 1;
         }
-        
+        /*
         // Manage guns
         if (current_weapon == 0) {
             semi = true;
@@ -230,5 +215,6 @@ var level0State = {
         guns.forEach(function(gun) {
             game.physics.arcade.overlap(player, gun, c_Gun, null, this);
         });
+*/
     }
 };

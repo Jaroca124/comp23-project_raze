@@ -38,8 +38,37 @@ var loadState = {
 	}
 };
 
+//  Load various functions and objects
+var score = 0;
+var scoreText;
+var health_count = 0;
+
+// Pistol = 0, Dual = 1, automatic = 2
+var current_weapon = 0;
+var fired = false;
+var semi = true;
+var health = 0;
+var ammo = '0';
+var time;
+var last_health_spawn = 0;
+var last_weapon_spawn = 0;
+var current_weapon_powerup;
+var ammo_circle;
+var healthbar;
+var MAX_LIVES = 3;
+var lives = 3;
+var stashed;
+var stashed_check = false;
+var reloadText;
+weapons = [];
+var tier_one_kills = 0;
+var TIER_ONE_ENEMIES = 20;
+var TIER_TWO_ENEMIES = 30;
+var TIER_THREE_ENEMIES = 40;
+
+
 function load_level1() {
-    game.state.start('level1');
+    game.state.start('level1', true);
 }
 
 function reload() {
@@ -104,7 +133,8 @@ function create_item(group, type) {
 
 function respawn_player() {
     respawn_button.visible = false;
-    lives--;
+    game.state.start('level0');
+    /*lives--;
     health = 100;
     healthText.text = health;
     if (lives > 0) {
@@ -119,5 +149,5 @@ function respawn_player() {
     else {
         gameoverText = game.add.text(300, 300, 'GAME OVER', { fontSize: '120px', fill: '#000' });
         gameoverText.fixedToCamera = true;
-    }
+    }*/
 }

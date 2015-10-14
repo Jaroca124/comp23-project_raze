@@ -1,39 +1,8 @@
-/*
-//  Load various functions and objects
-var platforms;
-var score = 0;
-var scoreText;
-var health_count = 0;
-
-// Pistol = 0, Dual = 1, automatic = 2
-var current_weapon = 0;
-var fired = false;
-var semi = true;
-var health = 100;
-var ammo = 10;
-var time;
-var last_health_spawn = 0;
-var last_weapon_spawn = 0;
-var current_weapon_powerup;
-var ammo_circle;
-var healthbar;
-var MAX_LIVES = 3;
-var lives = 3;
-var stashed;
-var stashed_check = false;
-var reloadText;
-weapons = [];
-var level_enemies;*/
-
 var level1State = {
 
     create: function() {
-        
-        // Reset Health Values
+
         health = 100;
-        ammo = 100;
-
-
         game.physics.startSystem(Phaser.Physics.ARCADE);
         this.cursors = game.input.keyboard.createCursorKeys();
         game.world.setBounds(0, 0, 1500, 1500);
@@ -102,7 +71,11 @@ var level1State = {
         }
 
         // Initalizing Player
-        player = game.add.sprite(500, 500, 'player');
+        //player.reset();
+        
+        console.log('Now in level 1');
+        player = game.add.sprite(200, 400, 'player');
+        //player.y = 200;
         player.anchor.setTo(.5, .5);
         player.scale.setTo(2, 2);
         game.physics.enable(player, Phaser.Physics.ARCADE);
@@ -113,19 +86,15 @@ var level1State = {
         // Camera
         game.camera.follow(player);
 
-
-        // Use Spacebar to Shoot
-        game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
-
         // Add Weapons 
         weapons.push(new Weapon.SingleBullet(this.game));
         
         // Add Gorilla Enemies
         gorillas = game.add.group();
+
         gorillas.enableBody = true;
-        for (var j = 0; j < 20; j++) {
+        for (var j = 0; j < TIER_ONE_ENEMIES; j++) {
             var gorilla = Gorilla(gorillas, 300 + 100*j, 300 + 100*j, player);
-            level_enemies++;
         }
 
         var header = game.add.sprite(0, 0, 'header');
@@ -179,6 +148,9 @@ var level1State = {
     },
 
     update: function() {
+
+        //console.log('X: ' + player.x);
+        //console.log('Y ' + player.y);
 
         game.physics.arcade.collide(player, edges);
         game.physics.arcade.collide(player, obstacles);
