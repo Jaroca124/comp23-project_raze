@@ -207,6 +207,12 @@ function create() {
     life3 = game.add.sprite(690, 25, 'heart');
     life3.anchor.set(.5);
     life3.fixedToCamera = true;
+
+    // Buttons
+    respawn_button = game.add.button(400, 300, 'respawn', respawn_player, this);
+    respawn_button.anchor.set(.5);
+    respawn_button.fixedToCamera = true;
+    respawn_button.visible = false;
 }
 
 var stashed;
@@ -259,7 +265,7 @@ function update() {
     // Player Health, Game Over
     if (health <= 0) {
         player.kill(true);
-        gameoverText = game.add.text(300, 300, 'GAME OVER', { fontSize: '120px', fill: '#000' });
+        respawn_button.visible = true;
     }
 
 
@@ -389,8 +395,8 @@ function collide2(x, y) {
 
 function c_Health(player, collider) {
     health += collider.collide();
-    if (health > 200) {
-        health = 200;
+    if (health > 100) {
+        health = 100;
     }
     healthText.text = health;
 }
@@ -416,6 +422,25 @@ function create_item(group, type) {
         health_count++;    
     }
     return item;
+}
+
+function respawn_player() {
+    respawn_button.visible = false;
+    lives--;
+    health = 100;
+    healthText.text = health;
+    if (lives > 0) {
+        if (lives == 2) {
+            life3.destroy();
+        }
+        else {
+            life2.destroy();
+        }
+        //player.kill(false);
+    }
+    else {
+        gameoverText = game.add.text(300, 300, 'GAME OVER', { fontSize: '120px', fill: '#000' });
+    }
 }
 
 </script>
