@@ -2,7 +2,6 @@ var level1State = {
 
     create: function() {
 
-        health = 100;
         game.physics.startSystem(Phaser.Physics.ARCADE);
         this.cursors = game.input.keyboard.createCursorKeys();
         game.world.setBounds(0, 0, 1500, 1500);
@@ -123,17 +122,6 @@ var level1State = {
         ammoText = game.add.text(730, 525, ammo, { fontSize: '64px', fill: 'white' });
         ammoText.anchor.set(0.5);
         ammoText.fixedToCamera = true;
-
-        // Lives
-        life1 = game.add.sprite(770, 25, 'heart');
-        life1.anchor.set(.5);
-        life1.fixedToCamera = true;
-        life2 = game.add.sprite(730, 25, 'heart');
-        life2.anchor.set(.5);
-        life2.fixedToCamera = true;
-        life3 = game.add.sprite(690, 25, 'heart');
-        life3.anchor.set(.5);
-        life3.fixedToCamera = true;
 
         // Guns
         guns = game.add.group();

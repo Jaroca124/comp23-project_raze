@@ -47,16 +47,14 @@ var health_count = 0;
 var current_weapon = 0;
 var fired = false;
 var semi = true;
-var health = 0;
-var ammo = '0';
+var health = 100;
+var ammo = 200;
 var time;
 var last_health_spawn = 0;
 var last_weapon_spawn = 0;
 var current_weapon_powerup;
 var ammo_circle;
 var healthbar;
-var MAX_LIVES = 3;
-var lives = 3;
 var stashed;
 var stashed_check = false;
 var reloadText;
@@ -133,21 +131,13 @@ function create_item(group, type) {
 
 function respawn_player() {
     respawn_button.visible = false;
-    game.state.start('level0');
-    /*lives--;
     health = 100;
     healthText.text = health;
-    if (lives > 0) {
-        if (lives == 2) {
-            life3.destroy();
-        }
-        else {
-            life2.destroy();
-        }
-        //player.kill(false);
-    }
+    game.state.start('boot', true, true);
+    /*
     else {
         gameoverText = game.add.text(300, 300, 'GAME OVER', { fontSize: '120px', fill: '#000' });
         gameoverText.fixedToCamera = true;
-    }*/
+    }
+    */
 }
