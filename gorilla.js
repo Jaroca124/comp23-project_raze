@@ -24,6 +24,7 @@ function Gorilla(group, x, y, player) {
     var player = player;
     gorilla.position.x = x;
     gorilla.position.y = y;
+    gorilla.animations.add('walk');
     gorilla.scale.setTo(1, 1);
     gorilla.anchor.setTo(0.5, 0.5);
     gorilla.health = 5;

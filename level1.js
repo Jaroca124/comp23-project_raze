@@ -70,9 +70,6 @@ var level1State = {
         }
 
         // Initalizing Player
-        //player.reset();
-        
-        console.log('Now in level 1');
         player = game.add.sprite(200, 400, 'player');
         //player.y = 200;
         player.anchor.setTo(0.5, 0.5);
@@ -136,9 +133,6 @@ var level1State = {
     },
 
     update: function() {
-
-        //console.log('X: ' + player.x);
-        //console.log('Y ' + player.y);
 
         game.physics.arcade.collide(player, edges);
         game.physics.arcade.collide(player, obstacles);
@@ -286,10 +280,15 @@ var level1State = {
         });
 
         gorillas.forEach(function(gorilla) {
-
             gorilla.angle = game.physics.arcade.accelerateToObject(gorilla, player, 500,500, 500);
-          //  game.physics.arcade.collide(player, gorillas);
-          //  game.physics.arcade.overlap(player, gorillas, collide, null, this);
+            //game.physics.arcade.collide(player, gorillas);
+            //game.physics.arcade.overlap(player, gorillas, collide, null, this);
+            gorilla.animations.play('walk', 10, true);
+            game.physics.arcade.collide(gorillas, gorillas);
+            game.physics.arcade.overlap(gorillas, gorillas, enemy_collide, null, this);
+            gorilla.angle = game.physics.arcade.accelerateToObject(gorilla, player, 200, 200, 200);
+            //game.physics.arcade.collide(player, gorillas);
+            //game.physics.arcade.overlap(player, gorillas, collide, null, this);
         });
 
         // Player Physics
