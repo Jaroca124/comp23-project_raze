@@ -42,14 +42,12 @@ var loadState = {
 
 //  Load various functions and objects
 var score = 0;
-var scoreText;
 var health_count = 0;
-
 // Pistol = 0, Dual = 1, automatic = 2
 var current_weapon = 0;
 var fired = false;
 var semi = true;
-var health = 10000;
+var health = 100;
 var ammo = 200;
 var time;
 var last_health_spawn = 0;
@@ -82,7 +80,7 @@ function reload() {
 }
 
 function collide() {
-    health -= 10;
+    health -= 2;
     healthText.text = health;
 }
 
@@ -96,9 +94,11 @@ function collide2(x, y) {
     x.kill(true);
     if (y.health <= 0){
        y.kill(true);
+       score += 1000;
     }
 }
 
+// Maximum Health = 100
 function c_Health(player, collider) {
     health += collider.collide();
     if (health > 100) {

@@ -43,7 +43,7 @@ var Weapon = {};
 Weapon.SingleBullet = function (game) {
     Phaser.Group.call(this, game, game.world, 'Single Bullet', false, true, Phaser.Physics.ARCADE);
     this.nextFire = 0;
-    this.bulletSpeed = 400;
+    this.bulletSpeed = 700;
     this.fireRate = 100;
 
     for (var i = 0; i < 64; i++) {
@@ -63,10 +63,11 @@ Weapon.SingleBullet.prototype.fire = function (source, Dual) {
     var x;
     var y;
     if (Dual) {
-        x = source.x;
+        console.log('here');
+        x = source.x + 10;
         y = source.y;
         this.getFirstExists(false).fire(x, y, player.angle + 90, this.bulletSpeed, 0, 0);
-        x = source.x;
+        x = source.x - 10;
         y = source.y;
         this.getFirstExists(false).fire(x, y, player.angle + 90, this.bulletSpeed, 0, 0);
     }
