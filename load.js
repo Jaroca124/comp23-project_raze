@@ -133,7 +133,8 @@ function respawn_player() {
     respawn_button.visible = false;
     health = 100;
     healthText.text = health;
-    game.state.start('boot', true, true);
+    //game.state.start('boot', true, true);
+    location.reload();
     /*
     else {
         gameoverText = game.add.text(300, 300, 'GAME OVER', { fontSize: '120px', fill: '#000' });
