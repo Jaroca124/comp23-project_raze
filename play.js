@@ -8,7 +8,7 @@ var health_count = 0;
 var current_weapon = 0;
 var fired = false;
 var semi = true;
-var health = 100;
+var health = 100000;
 var ammo = 10;
 var time;
 var last_health_spawn = 0;

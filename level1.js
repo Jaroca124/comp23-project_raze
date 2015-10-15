@@ -75,7 +75,7 @@ var level1State = {
         console.log('Now in level 1');
         player = game.add.sprite(200, 400, 'player');
         //player.y = 200;
-        player.anchor.setTo(.5, .5);
+        player.anchor.setTo(0.5, 0.5);
         player.scale.setTo(2, 2);
         game.physics.enable(player, Phaser.Physics.ARCADE);
         player.force = {x:0.0, y:0.0};
@@ -204,9 +204,10 @@ var level1State = {
 
 
         // Mouse Coordinates
-        var mX = game.input.mousePointer.x;
-        var mY = game.input.mousePointer.y;
+        var mX = game.input.mousePointer.x + game.camera.x;
+        var mY = game.input.mousePointer.y + game.camera.y;
         player.angle = (Math.atan2(player.position.x - mX, player.position.y - mY)  * -57.2957795) + 180;
+       // player.angle = (Math.atan2(player.position.x - mX, player.position.y - mY)  * -57.2957795) + 180;
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
         
@@ -285,15 +286,17 @@ var level1State = {
         });
 
         gorillas.forEach(function(gorilla) {
-            game.physics.arcade.collide(gorillas, gorillas);
-            game.physics.arcade.overlap(gorillas, gorillas, enemy_collide, null, this);
-            gorilla.angle = game.physics.arcade.accelerateToObject(gorilla, player, 200, 200, 200);
-            game.physics.arcade.collide(player, gorillas);
-            game.physics.arcade.overlap(player, gorillas, collide, null, this);
+
+            gorilla.angle = game.physics.arcade.accelerateToObject(gorilla, player, 500,500, 500);
+          //  game.physics.arcade.collide(player, gorillas);
+          //  game.physics.arcade.overlap(player, gorillas, collide, null, this);
         });
 
         // Player Physics
-        game.physics.arcade.collide(player, gorillas);
+        game.physics.arcade.collide(gorillas, gorillas);
+        game.physics.arcade.overlap(gorillas, gorillas, enemy_collide, null, this);
         game.physics.arcade.overlap(player, gorillas, collide, null, this);
+        game.physics.arcade.collide(player, gorillas);
+
     }
 };

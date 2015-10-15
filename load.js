@@ -48,7 +48,7 @@ var health_count = 0;
 var current_weapon = 0;
 var fired = false;
 var semi = true;
-var health = 100;
+var health = 10000;
 var ammo = 200;
 var time;
 var last_health_spawn = 0;
@@ -61,7 +61,7 @@ var stashed_check = false;
 var reloadText;
 weapons = [];
 var tier_one_kills = 0;
-var TIER_ONE_ENEMIES = 20;
+var TIER_ONE_ENEMIES = 3;
 var TIER_TWO_ENEMIES = 30;
 var TIER_THREE_ENEMIES = 40;
 
