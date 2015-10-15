@@ -30,6 +30,7 @@ var loadState = {
 	    game.load.image('respawn', 'assets/respawn.png');
 	    game.load.image('menu_background', 'assets/start_menu.png');
 	    game.load.image('level_exit', 'assets/level_exit.png');
+        game.load.image('instructions_screen', 'assets/instructions_screen.png');
 	    //game.renderer.renderSession.roundPixels = true;
 	},
 

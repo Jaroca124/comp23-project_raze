@@ -7,6 +7,6 @@ var menuState = {
 	},
 
 	start: function() {
-		game.state.start('level1');
+		game.state.start('instructions');
 	}
 };
