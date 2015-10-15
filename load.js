@@ -10,7 +10,7 @@ var loadState = {
 	    game.load.image('rude', 'assets/rude.png');
 	    game.load.image('rock', 'assets/maps/rock.png');
 	    game.load.spritesheet('player', 'assets/player_sheet.png', 32, 32, 14);
-	    game.load.image('gorilla', 'assets/Gorilla_1.png');
+	    game.load.spritesheet('gorilla', 'assets/gorilla_sheet.png', 60, 110, 9);
 	    game.load.image('grass', 'assets/maps/grass_small.png');
 	    game.load.image('health_25', 'assets/health_25.png');
 	    game.load.image('health_50', 'assets/health_50.png');
@@ -31,6 +31,7 @@ var loadState = {
 	    game.load.image('menu_background', 'assets/start_menu.png');
 	    game.load.image('level_exit', 'assets/level_exit.png');
         game.load.image('instructions_screen', 'assets/instructions_screen.png');
+        game.load.image('control_screen', 'assets/control_screen.png');
 	    //game.renderer.renderSession.roundPixels = true;
 	},
 
@@ -61,9 +62,7 @@ var stashed_check = false;
 var reloadText;
 weapons = [];
 var tier_one_kills = 0;
-var TIER_ONE_ENEMIES = 20;
-var TIER_TWO_ENEMIES = 30;
-var TIER_THREE_ENEMIES = 40;
+var TIER_ONE_ENEMIES = 1;
 
 
 function load_level1() {
