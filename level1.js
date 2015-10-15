@@ -120,6 +120,8 @@ var level1State = {
         ammoText.anchor.set(0.5);
         ammoText.fixedToCamera = true;
 
+        // Score
+
         // Guns
         guns = game.add.group();
         gunText = game.add.text(700, 545, '', { fontSize: '32px', fill: 'white'});
@@ -133,6 +135,9 @@ var level1State = {
     },
 
     update: function() {
+
+        // Increase Score as a Function of Time
+        score++;
 
         game.physics.arcade.collide(player, edges);
         game.physics.arcade.collide(player, obstacles);
