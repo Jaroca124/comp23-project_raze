@@ -6,6 +6,7 @@ game.state.add('menu', menuState);
 game.state.add('level1', level1State);
 game.state.add('instructions', instructionsState);
 game.state.add('controls', controlState);
-//game.state.add('win', bootState);
+game.state.add('game_over', game_overState);
+game.state.add('leaderboard', leaderboardState);
 
 game.state.start('boot');

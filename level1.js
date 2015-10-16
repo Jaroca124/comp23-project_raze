@@ -128,12 +128,6 @@ var level1State = {
         guns = game.add.group();
         gunText = game.add.text(750, 545, '', { fontSize: '32px', fill: 'white'});
         gunText.fixedToCamera = true;
-
-        // Buttons
-        respawn_button = game.add.button(400, 300, 'respawn', respawn_player, this);
-        respawn_button.anchor.set(.5);
-        respawn_button.fixedToCamera = true;
-        respawn_button.visible = false;
     },
 
     update: function() {
@@ -177,6 +171,28 @@ var level1State = {
             }
         }
 
+        // Continuously Add Enemies
+        if (last_gorilla_spawn != seconds && seconds % 5 == 0) {
+            if (seconds < 20) {
+                for (var g = 0; g < 1; g++) {
+                    gorilla = Gorilla(gorillas, (Math.floor((Math.random() * 100) + 1)) % 800, (Math.floor((Math.random() * 100) + 1)) % 600, player);
+                }
+                last_gorilla_spawn = seconds;
+            }
+            else if (seconds < 40 && seconds > 19) {
+                for (var g = 0; g < 3; g++) {
+                    gorilla = Gorilla(gorillas, (Math.floor((Math.random() * 100) + 1)) % 800, (Math.floor((Math.random() * 100) + 1)) % 600, player);
+                }
+                last_gorilla_spawn = seconds;
+            }
+            else {
+                for (var g = 0; g < 5; g++) {
+                    gorilla = Gorilla(gorillas, (Math.floor((Math.random() * 100) + 1)) % 800, (Math.floor((Math.random() * 100) + 1)) % 600, player);
+                }
+                last_gorilla_spawn = seconds;
+            }
+        }
+
         // Manage Ammo
         if (ammo < 1) {
             if (current_weapon > 0) {
@@ -196,14 +212,10 @@ var level1State = {
             }
         }
 
-        // All Enemies Killed, Player Wins
-
-
-
         // Player Health, Game Over
         if (health <= 0) {
             player.kill(true);
-            respawn_button.visible = true;
+            game.state.start('game_over');
         }
 
 

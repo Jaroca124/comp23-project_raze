@@ -32,6 +32,11 @@ var loadState = {
 	    game.load.image('level_exit', 'assets/level_exit.png');
         game.load.image('instructions_screen', 'assets/instructions_screen.png');
         game.load.image('control_screen', 'assets/control_screen.png');
+        game.load.image('mm', 'assets/main_menu_button.png');
+        game.load.image('sb', 'assets/submit_button.png');
+        game.load.image('game_over', 'assets/game_over_screen.png');
+        game.load.image('leader_bg', 'assets/leader_bg.png');
+        game.load.image('input', 'assets/input.png');
 	    //game.renderer.renderSession.roundPixels = true;
 	},
 
@@ -52,6 +57,7 @@ var ammo = 200;
 var time;
 var last_health_spawn = 0;
 var last_weapon_spawn = 0;
+var last_gorilla_spawn = 0;
 var current_weapon_powerup;
 var ammo_circle;
 var healthbar;
@@ -60,7 +66,8 @@ var stashed_check = false;
 var reloadText;
 weapons = [];
 var tier_one_kills = 0;
-var TIER_ONE_ENEMIES = 3;
+var TIER_ONE_ENEMIES = 10;
+var name;
 
 
 function load_level1() {
@@ -127,18 +134,4 @@ function create_item(group, type) {
         health_count++;    
     }
     return item;
-}
-
-function respawn_player() {
-    respawn_button.visible = false;
-    health = 100;
-    healthText.text = health;
-    //game.state.start('boot', true, true);
-    location.reload();
-    /*
-    else {
-        gameoverText = game.add.text(300, 300, 'GAME OVER', { fontSize: '120px', fill: '#000' });
-        gameoverText.fixedToCamera = true;
-    }
-    */
 }
