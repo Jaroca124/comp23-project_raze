@@ -38,7 +38,7 @@ var loadState = {
         game.load.image('leader_bg', 'assets/leader_bg.png');
         game.load.image('input', 'assets/input.png');
 	    //game.renderer.renderSession.roundPixels = true;
-        game.load.audio('trhice', 'assets/thrice.mp3');
+        game.load.audio('thrice', 'assets/thrice.mp3');
 	},
 
 	create: function() {

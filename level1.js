@@ -128,10 +128,6 @@ var level1State = {
         guns = game.add.group();
         gunText = game.add.text(750, 545, '', { fontSize: '32px', fill: 'white'});
         gunText.fixedToCamera = true;
-
-        // Music
-        music = game.add.audio('thrice');
-        music.play();
     },
 
     update: function() {
