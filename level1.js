@@ -70,7 +70,7 @@ var level1State = {
         }
 
         // Initalizing Player
-        player = game.add.sprite(200, 400, 'player');
+        player = game.add.sprite(1300, 400, 'player');
         //player.y = 200;
         player.anchor.setTo(0.5, 0.5);
         player.scale.setTo(2, 2);
@@ -175,19 +175,19 @@ var level1State = {
         if (last_gorilla_spawn != seconds && seconds % 5 == 0) {
             if (seconds < 20) {
                 for (var g = 0; g < 1; g++) {
-                    gorilla = Gorilla(gorillas, (Math.floor((Math.random() * 100) + 1)) % 800, (Math.floor((Math.random() * 100) + 1)) % 600, player);
+                    gorilla = Gorilla(gorillas, (Math.floor((Math.random() * 1500) + 1)), (Math.floor((Math.random() * 1500) + 1)), player);
                 }
                 last_gorilla_spawn = seconds;
             }
             else if (seconds < 40 && seconds > 19) {
                 for (var g = 0; g < 3; g++) {
-                    gorilla = Gorilla(gorillas, (Math.floor((Math.random() * 100) + 1)) % 800, (Math.floor((Math.random() * 100) + 1)) % 600, player);
+                    gorilla = Gorilla(gorillas, (Math.floor((Math.random() * 1500) + 1)), (Math.floor((Math.random() * 1500) + 1)), player);
                 }
                 last_gorilla_spawn = seconds;
             }
             else {
                 for (var g = 0; g < 5; g++) {
-                    gorilla = Gorilla(gorillas, (Math.floor((Math.random() * 100) + 1)) % 800, (Math.floor((Math.random() * 100) + 1)) % 600, player);
+                    gorilla = Gorilla(gorillas, (Math.floor((Math.random() * 1500) + 1)), (Math.floor((Math.random() * 1500) + 1)), player);
                 }
                 last_gorilla_spawn = seconds;
             }

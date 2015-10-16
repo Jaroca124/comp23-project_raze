@@ -1,7 +1,7 @@
 var leaderboardState = {
 	create: function() {
 		var background = game.add.sprite(-5, 0, 'leader_bg');
-		var main_menu = game.add.button(350, 500, 'mm', return_to_main_menu, this);
+		var main_menu = game.add.button(330, 500, 'mm', return_to_main_menu, this);
 		get_scores(game);
 	}
 };
