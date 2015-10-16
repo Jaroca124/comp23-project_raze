@@ -10,7 +10,7 @@ var loadState = {
 	    game.load.image('rude', 'assets/rude.png');
 	    game.load.image('rock', 'assets/maps/rock.png');
 	    game.load.spritesheet('player', 'assets/player_sheet.png', 32, 32, 14);
-	    game.load.spritesheet('gorilla', 'assets/gorilla_sheet.png', 60, 110, 9);
+	    game.load.spritesheet('gorilla', 'assets/gorilla_sheet.png', 79, 105, 9);
 	    game.load.image('grass', 'assets/maps/grass_small.png');
 	    game.load.image('health_25', 'assets/health_25.png');
 	    game.load.image('health_50', 'assets/health_50.png');
