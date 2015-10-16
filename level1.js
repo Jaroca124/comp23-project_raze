@@ -128,6 +128,10 @@ var level1State = {
         guns = game.add.group();
         gunText = game.add.text(750, 545, '', { fontSize: '32px', fill: 'white'});
         gunText.fixedToCamera = true;
+
+        // Music
+        music = game.add.audio('thrice');
+        music.play();
     },
 
     update: function() {
@@ -180,13 +184,13 @@ var level1State = {
                 last_gorilla_spawn = seconds;
             }
             else if (seconds < 40 && seconds > 19) {
-                for (var g = 0; g < 3; g++) {
+                for (var g = 0; g < 2; g++) {
                     gorilla = Gorilla(gorillas, (Math.floor((Math.random() * 1500) + 1)), (Math.floor((Math.random() * 1500) + 1)), player);
                 }
                 last_gorilla_spawn = seconds;
             }
             else {
-                for (var g = 0; g < 5; g++) {
+                for (var g = 0; g < 3; g++) {
                     gorilla = Gorilla(gorillas, (Math.floor((Math.random() * 1500) + 1)), (Math.floor((Math.random() * 1500) + 1)), player);
                 }
                 last_gorilla_spawn = seconds;
