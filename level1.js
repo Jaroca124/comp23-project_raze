@@ -89,7 +89,7 @@ var level1State = {
         gorillas = game.add.group();
 
         gorillas.enableBody = true;
-        for (var j = 0; j < TIER_ONE_ENEMIES; j++) {
+        for (var j = 0; j < starting_enemies; j++) {
             var gorilla = Gorilla(gorillas, 300 + 100*j, 300 + 100*j, player);
         }
 

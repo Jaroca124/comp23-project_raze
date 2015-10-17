@@ -1,8 +1,26 @@
+var json_received;
+
 var loadState = {
 	preload: function() {
-		var loadingLabel = game.add.text(400, 800, 'Loading...', {font: '64px Ariel', fill: 'white'});
+		var loadingLabel = game.add.text(400, 300, 'Loading...', {font: '64px Ariel', fill: 'white'});
 		
-		// Loading Assets
+		var request = new XMLHttpRequest();
+        var url = "data.json";
+        request.open("GET", url, true);
+
+        request.onreadystatechange = function() {
+            if (request.readyState == 4 && request.status == 200) {
+                json_received = JSON.parse(request.responseText);
+                console.log(json_received.health);
+                health = json_received.health;
+                ammo = json_received.ammo;
+                starting_enemies = json_received.starting_enemies;
+            }
+        }
+
+        request.send();
+
+        // Loading Assets
 		game.load.image('sky', 'assets/sky.png');
 	    game.load.image('ground', 'assets/platform.png');
 	    game.load.atlasJSONHash('sheet_small', 'assets/maps/sheet_small.png', 'assets/maps/sheet_small.json');
@@ -53,8 +71,8 @@ var health_count = 0;
 var current_weapon = 0;
 var fired = false;
 var semi = true;
-var health = 100;
-var ammo = 200;
+var health;
+var ammo;
 var time;
 var last_health_spawn = 0;
 var last_weapon_spawn = 0;
@@ -66,8 +84,7 @@ var stashed;
 var stashed_check = false;
 var reloadText;
 weapons = [];
-var tier_one_kills = 0;
-var TIER_ONE_ENEMIES = 10;
+var starting_enemies;
 var name;
 
 
