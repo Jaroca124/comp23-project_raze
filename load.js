@@ -11,7 +11,6 @@ var loadState = {
         request.onreadystatechange = function() {
             if (request.readyState == 4 && request.status == 200) {
                 json_received = JSON.parse(request.responseText);
-                console.log(json_received.health);
                 health = json_received.health;
                 ammo = json_received.ammo;
                 starting_enemies = json_received.starting_enemies;
