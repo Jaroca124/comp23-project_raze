@@ -1,5 +1,4 @@
-//Functions for Bullets
-//Functions for Bullets
+// Functions for Bullets
 var Bullet = function (game, key) {
 
     Phaser.Sprite.call(this, game, 0, 0, key);
@@ -71,15 +70,12 @@ Weapon.SingleBullet.prototype.fire = function (source, Dual) {
         this.getFirstExists(false).fire(x, y, player.angle, this.bulletSpeed, 0, 0);
     }
     else {
-        x = source.x + (Math.sin(player.angle) * 4;
-        y = source.y + (Math.sin(player.angle) * 4;
+        console.log(source.width);
+        x = source.x;//(source.x + (source.width / 2) + 5);
+        y = source.y;//(source.y + 15);
         this.getFirstExists(false).fire(x, y, player.angle, this.bulletSpeed, 0, 0);
     }
 
     this.nextFire = game.time.time + this.fireRate;
 
 };
-
-function determine_gun(semi, current_weapon) {
-    
-}
