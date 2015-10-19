@@ -2,10 +2,6 @@ var level1State = {
 
     create: function() {
 
-        menu_music.stop();
-        game_music = game.add.audio('game_music');
-        game_music.play();
-
         game.physics.startSystem(Phaser.Physics.ARCADE);
         this.cursors = game.input.keyboard.createCursorKeys();
         game.world.setBounds(0, 0, 1500, 1500);
@@ -75,12 +71,10 @@ var level1State = {
 
         // Initalizing Player
         player = game.add.sprite(1300, 400, 'player');
-        //player.y = 200;
-        player.anchor.setTo(.5, .8);
+        player.anchor.setTo(.5, .5);
         player.scale.setTo(1, 1);
         game.physics.enable(player, Phaser.Physics.ARCADE);
         player.force = {x:0.0, y:0.0};
-        //player.animations.add('walk');
         player.body.collideWorldBounds = true;
 
         // Camera
@@ -148,7 +142,7 @@ var level1State = {
         gunText.x = Math.floor(ammo_circle.x + ammo_circle.width / 2);
         gunText.y = Math.floor(ammo_circle.y + ammo_circle.height / 2);
         if (current_weapon == 0) {
-            gunText.text = 'Pistol';
+            gunText.text = 'Single';
         }
         else if (current_weapon == 1) {
             gunText.text = 'Dual';
@@ -258,7 +252,7 @@ var level1State = {
             semi = false;
         }
 
-        // Pistol
+        // Single Shot
         if (game.input.activePointer.isDown && semi == true && current_weapon == 0) { 
             if (!fired && ammo > 0) {    
                 weapons[0].fire(player, false);

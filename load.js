@@ -26,8 +26,7 @@ var loadState = {
 	    game.load.image('bullet4', 'assets/bullet6.png');
 	    game.load.image('rude', 'assets/rude.png');
 	    game.load.image('rock', 'assets/maps/rock.png');
-        game.load.image('player', 'assets/player_new.png');
-	    //game.load.spritesheet('player', 'assets/player_sheet.png', 32, 32, 14);
+        game.load.image('player', 'assets/player_centered.png');
 	    game.load.spritesheet('gorilla', 'assets/gorilla_sheet2.png', 132.5, 140);
 	    game.load.image('grass', 'assets/maps/grass_small.png');
 	    game.load.image('health_25', 'assets/health_25.png');
@@ -56,7 +55,6 @@ var loadState = {
         game.load.image('leader_bg', 'assets/leader_bg.png');
         game.load.image('input', 'assets/input.png');
         game.load.audio('game_music', 'assets/game.mp3');
-        game.load.audio('load_music', 'assets/load.mp3');
 	},
 
 	create: function() {
