@@ -65,7 +65,6 @@ var loadState = {
 //  Load various functions and objects
 var score = 0;
 var health_count = 0;
-// Pistol = 0, Dual = 1, automatic = 2
 var current_weapon = 0;
 var fired = false;
 var semi = true;

@@ -179,7 +179,7 @@ var level1State = {
                 last_gorilla_spawn = seconds;
             }
             else {
-                for (var g = 0; g < 3; g++) {
+                for (var g = 0; g < 4; g++) {
                     gorilla = Gorilla(gorillas, (Math.floor((Math.random() * 1500) + 1)), (Math.floor((Math.random() * 1500) + 1)), player);
                 }
                 last_gorilla_spawn = seconds;
@@ -223,7 +223,6 @@ var level1State = {
         if (wasd.left.isDown)
         {
             //  Move to the left
-            //player.animations.play('walk', 25, true);
             player.body.velocity.x = -400;
         }
         else if (wasd.right.isDown)
@@ -291,10 +290,7 @@ var level1State = {
 
         gorillas.forEach(function(gorilla) {
             gorilla.angle = game.physics.arcade.accelerateToObject(gorilla, player, 200, 200, 200);
-        //    gorilla.angle = game.physics.arcade.accelerateToObject(gorilla, player, 500,500, 500);
             gorilla.animations.play('walk', 10, true);
-       //     game.physics.arcade.collide(gorillas, gorillas);
-       //     game.physics.arcade.overlap(gorillas, gorillas, enemy_collide, null, this);
 
         });
 
@@ -303,6 +299,5 @@ var level1State = {
         game.physics.arcade.overlap(gorillas, gorillas, enemy_collide, null, this);
         game.physics.arcade.overlap(player, gorillas, collide, null, this);
         game.physics.arcade.collide(player, gorillas);
-
     }
 };
