@@ -73,6 +73,7 @@ Weapon.SingleBullet.prototype.fire = function (source, Dual) {
     else {
         x = source.x + Math.sin(player.angle) * 4;
         y = source.y + Math.sin(player.angle) * 2;
+
         this.getFirstExists(false).fire(x, y, player.angle, this.bulletSpeed, 0, 0);
     }
 

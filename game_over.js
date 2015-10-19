@@ -6,10 +6,9 @@ var game_overState = {
 		var submit_button = game.add.button(600, 520, 'sb', submit_score, this);
         submit_button.anchor.set(.5);
 
-        scoreText = game.add.text(385, 380, score, {font: '32px Verdana', fill: 'white'});
+        scoreText = game.add.text(385, 380, score, {fontsize: '32px Verdana', fill: 'white'});
 
-        nameText = game.add.text(345, 180, name, {font: '64px Verdana', fill: 'white'});
-        console.log("why wont you print kdjhfks");
+        nameText = game.add.text(340, 180, name, {font: '64px Verdana', fill: 'white'});
         
         var main_menu = game.add.button(150, 490, 'mm', return_to_main_menu, this);
 	}

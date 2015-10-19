@@ -28,7 +28,7 @@ var loadState = {
 	    game.load.image('rock', 'assets/maps/rock.png');
         game.load.image('player', 'assets/player.png');
 	    //game.load.spritesheet('player', 'assets/player_sheet.png', 32, 32, 14);
-	    game.load.spritesheet('gorilla', 'assets/gorilla_sheet2.png', 79, 105, 9);
+	    game.load.spritesheet('gorilla', 'assets/gorilla_sheet2.png', 132.5, 140);
 	    game.load.image('grass', 'assets/maps/grass_small.png');
 	    game.load.image('health_25', 'assets/health_25.png');
 	    game.load.image('health_50', 'assets/health_50.png');
@@ -55,8 +55,8 @@ var loadState = {
         game.load.image('game_over', 'assets/gameover_screen.png');
         game.load.image('leader_bg', 'assets/leader_bg.png');
         game.load.image('input', 'assets/input.png');
-	    //game.renderer.renderSession.roundPixels = true;
-        game.load.audio('thrice', 'assets/jungle2.mp3');
+        game.load.audio('game_music', 'assets/game.mp3');
+        game.load.audio('load_music', 'assets/load.mp3');
         console.log("loaded successfully");
 	},
 
