@@ -73,7 +73,7 @@ var level1State = {
         player = game.add.sprite(1300, 400, 'player');
         //player.y = 200;
         player.anchor.setTo(0.5, 0.5);
-        player.scale.setTo(.5, .5);
+        player.scale.setTo(1, 1);
         game.physics.enable(player, Phaser.Physics.ARCADE);
         player.force = {x:0.0, y:0.0};
         //player.animations.add('walk');

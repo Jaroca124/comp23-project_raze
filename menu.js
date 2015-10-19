@@ -6,7 +6,7 @@ var menuState = {
 
 		// Music
         music = game.add.audio('thrice');
-        //music.play();
+        music.play();
 		
 	},
 
