@@ -2,6 +2,10 @@ var level1State = {
 
     create: function() {
 
+        menu_music.stop();
+        game_music = game.add.audio('game_music');
+        game_music.play();
+
         game.physics.startSystem(Phaser.Physics.ARCADE);
         this.cursors = game.input.keyboard.createCursorKeys();
         game.world.setBounds(0, 0, 1500, 1500);

@@ -1,17 +1,3 @@
-/*var Rock = function (game, key) {
-    Phaser.Sprite.call(this, game, 0, 0, key);
-    this.texture.baseTexture.scaleMode = PIXI.scaleModes.NEAREST;
-    this.anchor.set(0.5);
-    this.checkWorldBounds = true;
-    this.outOfBoundsKill = true;
-    this.exists = false;
-    this.tracking = false;
-    this.scaleSpeed = 0;
-};
-Rock.prototype = Object.create(Phaser.Sprite.prototype);
-Rock.prototype.constructor = Rock;
-*/
-
 Gorilla.prototype = Object.create(Phaser.Sprite.prototype);
 
 Gorilla.prototype.constructor = Gorilla;

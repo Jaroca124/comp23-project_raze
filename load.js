@@ -57,7 +57,6 @@ var loadState = {
         game.load.image('input', 'assets/input.png');
         game.load.audio('game_music', 'assets/game.mp3');
         game.load.audio('load_music', 'assets/load.mp3');
-        console.log("loaded successfully");
 	},
 
 	create: function() {
