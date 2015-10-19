@@ -55,9 +55,9 @@ var loadState = {
         game.load.image('game_over', 'assets/gameover_screen.png');
         game.load.image('leader_bg', 'assets/leader_bg.png');
         game.load.image('input', 'assets/input.png');
-        game.load.audio('game_music', 'assets/game.mp3');
-        game.load.audio('load_music', 'assets/load.mp3');
-        console.log("loaded successfully");
+        game.load.audio('playing', 'assets/game.mp3');
+        game.load.audio('loading', 'assets/load.mp3');
+        console.log("are you listening to me");
 	},
 
 	create: function() {
