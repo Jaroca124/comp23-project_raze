@@ -63,18 +63,17 @@ Weapon.SingleBullet.prototype.fire = function (source, Dual) {
     var x;
     var y;
     if (Dual) {
-        console.log('here');
         x = source.x + 10;
         y = source.y;
-        this.getFirstExists(false).fire(x, y, player.angle + 90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(x, y, player.angle, this.bulletSpeed, 0, 0);
         x = source.x - 10;
         y = source.y;
-        this.getFirstExists(false).fire(x, y, player.angle + 90, this.bulletSpeed, 0, 0);
+        this.getFirstExists(false).fire(x, y, player.angle, this.bulletSpeed, 0, 0);
     }
     else {
-        x = source.x;// + 10;
-        y = source.y;// + 10;
-        this.getFirstExists(false).fire(x, y, player.angle + 90, this.bulletSpeed, 0, 0);
+        x = source.x - 102;
+        y = source.y - 14;
+        this.getFirstExists(false).fire(x, y, player.angle, this.bulletSpeed, 0, 0);
     }
 
     this.nextFire = game.time.time + this.fireRate;
