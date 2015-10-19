@@ -23,10 +23,11 @@ var loadState = {
 		game.load.image('sky', 'assets/sky.png');
 	    game.load.image('ground', 'assets/platform.png');
 	    game.load.atlasJSONHash('sheet_small', 'assets/maps/sheet_small.png', 'assets/maps/sheet_small.json');
-	    game.load.image('bullet4', 'assets/bullet4.png');
+	    game.load.image('bullet4', 'assets/bullet6.png');
 	    game.load.image('rude', 'assets/rude.png');
 	    game.load.image('rock', 'assets/maps/rock.png');
-	    game.load.spritesheet('player', 'assets/player_sheet.png', 32, 32, 14);
+        game.load.image('player', 'assets/player.png');
+	    //game.load.spritesheet('player', 'assets/player_sheet.png', 32, 32, 14);
 	    game.load.spritesheet('gorilla', 'assets/gorilla_sheet2.png', 79, 105, 9);
 	    game.load.image('grass', 'assets/maps/grass_small.png');
 	    game.load.image('health_25', 'assets/health_25.png');
