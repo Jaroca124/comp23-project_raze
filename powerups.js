@@ -40,7 +40,7 @@ function create_powerup(type, group, current_weapon) {
 	    var health_values = [25, 50, 75];
 		var index = Math.floor((Math.random() * 3));
 		var random_position = Math.floor((Math.random() * 1100) + 1);
-	    var health_object = Health(group, health_values[index], ((250 + (random_position * 200)) % 800) + 200, ((250 * (random_position * random_position)) % 600)) + 200;
+	    var health_object = Health(group, health_values[index], ((250 + (random_position * 200)) % 1100) + 200, ((250 * (random_position * random_position)) % 1100)) + 200;
 	    return health_object;
 	}
 	if (type == 'gun') {
