@@ -71,8 +71,8 @@ Weapon.SingleBullet.prototype.fire = function (source, Dual) {
     }
     else {
         console.log(source.width);
-        x = source.x;//(source.x + (source.width / 2) + 5);
-        y = source.y;//(source.y + 15);
+        x = source.x;
+        y = source.y;
         this.getFirstExists(false).fire(x, y, player.angle, this.bulletSpeed, 0, 0);
     }
 
