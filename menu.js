@@ -5,8 +5,8 @@ var menuState = {
 		start_key.onDown.addOnce(this.start, this);
 
 		// Music
-        music = game.add.audio('thrice');
-        music.play();
+        menu_music = game.add.audio('load_music');
+        menu_music.play();
 		
 	},
 
