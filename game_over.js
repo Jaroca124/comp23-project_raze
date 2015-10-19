@@ -2,6 +2,7 @@ var game_overState = {
 	create: function() {
 
 		var background = game.add.sprite(-5, 0, 'game_over');
+        console.log("hello");
 
 		var submit_button = game.add.button(660, 400, 'sb', submit_score, this);
         submit_button.anchor.set(.5);
@@ -9,8 +10,8 @@ var game_overState = {
         scoreText = game.add.text(377, 260, score, {fontsize: '1000px', fill: 'white'});
 
         var input_field = game.add.sprite(260, 360, 'input');
-        nameText = game.add.text(375, 380, name, {fontsize: '1000px', fill: 'black'});
-
+        nameText = game.add.text(375, 380, "poop", {fontsize: '1000px', fill: 'black'});
+        
         var main_menu = game.add.button(350, 500, 'mm', return_to_main_menu, this);
 	}
 };

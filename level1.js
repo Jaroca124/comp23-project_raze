@@ -126,7 +126,7 @@ var level1State = {
 
         // Guns
         guns = game.add.group();
-        gunText = game.add.text(750, 545, '', { fontSize: '32px', fill: 'white'});
+        gunText = game.add.text(695, 545, '', { fontSize: '32px', fill: 'white'});
         gunText.fixedToCamera = true;
     },
 
@@ -302,15 +302,12 @@ var level1State = {
         });
 
         gorillas.forEach(function(gorilla) {
-            gorilla.angle = game.physics.arcade.accelerateToObject(gorilla, player, 500,500, 500);
-            //game.physics.arcade.collide(player, gorillas);
-            //game.physics.arcade.overlap(player, gorillas, collide, null, this);
-            gorilla.animations.play('walk', 10, true);
-            game.physics.arcade.collide(gorillas, gorillas);
-            game.physics.arcade.overlap(gorillas, gorillas, enemy_collide, null, this);
             gorilla.angle = game.physics.arcade.accelerateToObject(gorilla, player, 200, 200, 200);
-            //game.physics.arcade.collide(player, gorillas);
-            //game.physics.arcade.overlap(player, gorillas, collide, null, this);
+        //    gorilla.angle = game.physics.arcade.accelerateToObject(gorilla, player, 500,500, 500);
+            gorilla.animations.play('walk', 10, true);
+       //     game.physics.arcade.collide(gorillas, gorillas);
+       //     game.physics.arcade.overlap(gorillas, gorillas, enemy_collide, null, this);
+
         });
 
         // Player Physics
