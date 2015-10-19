@@ -52,11 +52,12 @@ var loadState = {
         game.load.image('control_screen', 'assets/control_screen.png');
         game.load.image('mm', 'assets/main_menu_button.png');
         game.load.image('sb', 'assets/submit_button.png');
-        game.load.image('game_over', 'assets/game_over_screen.png');
+        game.load.image('game_over', 'assets/gameover_screen.png');
         game.load.image('leader_bg', 'assets/leader_bg.png');
-        game.load.image('input', 'assets/jungle2.png');
+        game.load.image('input', 'assets/input.png');
 	    //game.renderer.renderSession.roundPixels = true;
-        game.load.audio('thrice', 'assets/jungle.mp3');
+        game.load.audio('thrice', 'assets/jungle2.mp3');
+        console.log("loaded successfully");
 	},
 
 	create: function() {
