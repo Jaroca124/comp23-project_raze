@@ -72,7 +72,7 @@ var level1State = {
         // Initalizing Player
         player = game.add.sprite(1300, 400, 'player');
         //player.y = 200;
-        player.anchor.setTo(0.5, 0.5);
+        player.anchor.setTo(.5, .8);
         player.scale.setTo(1, 1);
         game.physics.enable(player, Phaser.Physics.ARCADE);
         player.force = {x:0.0, y:0.0};
@@ -89,9 +89,9 @@ var level1State = {
         gorillas = game.add.group();
 
         gorillas.enableBody = true;
-        //for (var j = 0; j < starting_enemies; j++) {
-        //    var gorilla = Gorilla(gorillas, 300, 300 + 100*j, player);
-        //}
+        for (var j = 0; j < starting_enemies; j++) {
+            var gorilla = Gorilla(gorillas, 300, 300 + 100*j, player);
+        }
 
         var header = game.add.sprite(0, 0, 'header');
         header.fixedToCamera = true;
@@ -105,9 +105,6 @@ var level1State = {
         healthbar.cropEnabled = true;
         healthText = game.add.text(77.5, 10, health, { fontSize: '50px', fill: 'white'});
         healthText.fixedToCamera = true;
-
-        //cropRect = new Phaser.Rectangle(0, 0, 70, 32.5);
-        //healthbar.crop(cropRect);
         
         // Ammo
         reloadText = game.add.text(320, 400, '', { fontSize: '120px', fill: 'white', visible: false});
@@ -155,8 +152,6 @@ var level1State = {
         else if (current_weapon == 2) {
             gunText.text = 'Auto';
         }
-
-        //cropRect.x = (health / 200) * healthbar.width;
 
         seconds = Math.floor(this.time.totalElapsedSeconds());
         if(last_health_spawn != seconds && seconds % 25 == 0){
@@ -223,7 +218,6 @@ var level1State = {
         var mX = game.input.mousePointer.x + game.camera.x;
         var mY = game.input.mousePointer.y + game.camera.y;
         player.angle = (Math.atan2(player.position.x - mX, player.position.y - mY)  * -57.2957795) - 90;
-       // player.angle = (Math.atan2(player.position.x - mX, player.position.y - mY)  * -57.2957795) + 180;
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
         
@@ -237,19 +231,15 @@ var level1State = {
         else if (wasd.right.isDown)
         {
             //  Move to the right
-            //player.animations.play('walk', 25, true);
             player.body.velocity.x = 400;
         }
         else if (wasd.up.isDown) {
-            //player.animations.play('walk', 25, true);
             player.body.velocity.y = -400;   
         }
         else if (wasd.down.isDown) {
-            //player.animations.play('walk', 25, true);
             player.body.velocity.y = 400;    
         }
         else {
-            //player.animations.stop();
             player.frame = 1;
         }
         
