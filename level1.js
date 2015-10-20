@@ -83,19 +83,20 @@ var level1State = {
         // Add Weapons 
         weapons.push(new Weapon.SingleBullet(this.game));
         
-        // Add Gorilla Enemies
+        // Add Game Groups
         gorillas = game.add.group();
+        health_powerups = game.add.group();
+        guns = game.add.group();
 
         gorillas.enableBody = true;
         for (var j = 0; j < starting_enemies; j++) {
-            var gorilla = Gorilla(gorillas, 300, 300 + 100*j, player);
+            var gorilla = Gorilla(gorillas, -400, 300 + 200*j, player);
         }
 
         var header = game.add.sprite(0, 0, 'header');
         header.fixedToCamera = true;
 
         // Health
-        health_powerups = game.add.group();
         var healthbar_bg = game.add.sprite(0, 2, 'healthbar_bg');
         healthbar_bg.fixedToCamera = true;
         healthbar = game.add.sprite(2.75, 6, 'healthbar');
@@ -120,7 +121,6 @@ var level1State = {
         scoreText.fixedToCamera = true;
 
         // Guns
-        guns = game.add.group();
         gunText = game.add.text(695, 545, '', { fontSize: '32px', fill: 'white'});
         gunText.fixedToCamera = true;
     },
@@ -168,19 +168,46 @@ var level1State = {
         if (last_gorilla_spawn != seconds && seconds % 5 == 0) {
             if (seconds < 20) {
                 for (var g = 0; g < 1; g++) {
-                    gorilla = Gorilla(gorillas, (Math.floor((Math.random() * 1500) + 1)), (Math.floor((Math.random() * 1500) + 1)), player);
+                    var plus_minus = Math.round(Math.random()) * 2 - 1;
+                    var x = (Math.floor((Math.random() * 1500) + 1));
+                    var y = (Math.floor((Math.random() * 1500) + 1));
+                    if (player.x - 450 < x && player.x + 450 > x) {
+                        x = x + plus_minus * 850;
+                    }
+                    if (player.y - 450 < y && player.y + 450 > y) {
+                        y = y + plus_minus * 650;
+                    }
+                    gorilla = Gorilla(gorillas, x, y, player);
                 }
                 last_gorilla_spawn = seconds;
             }
             else if (seconds < 40 && seconds > 19) {
                 for (var g = 0; g < 2; g++) {
-                    gorilla = Gorilla(gorillas, (Math.floor((Math.random() * 1500) + 1)), (Math.floor((Math.random() * 1500) + 1)), player);
+                    var plus_minus = Math.round(Math.random()) * 2 - 1;
+                    var x = (Math.floor((Math.random() * 1500) + 1));
+                    var y = (Math.floor((Math.random() * 1500) + 1));
+                    if (player.x - 450 < x && player.x + 450 > x) {
+                        x = x + plus_minus * 850;
+                    }
+                    if (player.y - 450 < y && player.y + 450 > y) {
+                        y = y + plus_minus * 650;
+                    }
+                    gorilla = Gorilla(gorillas, x, y, player);
                 }
                 last_gorilla_spawn = seconds;
             }
             else {
                 for (var g = 0; g < 4; g++) {
-                    gorilla = Gorilla(gorillas, (Math.floor((Math.random() * 1500) + 1)), (Math.floor((Math.random() * 1500) + 1)), player);
+                    var plus_minus = Math.round(Math.random()) * 2 - 1;
+                    var x = (Math.floor((Math.random() * 1500) + 1));
+                    var y = (Math.floor((Math.random() * 1500) + 1));
+                    if (player.x - 450 < x && player.x + 450 > x) {
+                        x = x + plus_minus * 850;
+                    }
+                    if (player.y - 450 < y && player.y + 450 > y) {
+                        y = y + plus_minus * 650;
+                    }
+                    gorilla = Gorilla(gorillas, x, y, player);
                 }
                 last_gorilla_spawn = seconds;
             }
@@ -283,20 +310,24 @@ var level1State = {
         // Check Collisions
         health_powerups.forEach(function(health) {
             game.physics.arcade.overlap(player, health, c_Health, null, this);
+            game.physics.arcade.overlap(health, obstacles, level_collisions, null, this);
+            game.physics.arcade.overlap(health, edges, level_collisions, null, this);
         });
         guns.forEach(function(gun) {
             game.physics.arcade.overlap(player, gun, c_Gun, null, this);
+            game.physics.arcade.overlap(gun, obstacles, level_collisions, null, this);
+            game.physics.arcade.overlap(gun, edges, level_collisions, null, this);
         });
 
         gorillas.forEach(function(gorilla) {
+            game.physics.arcade.collide(gorilla, gorillas);
+            game.physics.arcade.overlap(gorilla, gorillas, enemy_collide, null, this);
             gorilla.angle = game.physics.arcade.accelerateToObject(gorilla, player, 200, 200, 200);
             gorilla.animations.play('walk', 10, true);
 
         });
 
         // Player Physics
-        game.physics.arcade.collide(gorillas, gorillas);
-        game.physics.arcade.overlap(gorillas, gorillas, enemy_collide, null, this);
         game.physics.arcade.overlap(player, gorillas, collide, null, this);
         game.physics.arcade.collide(player, gorillas);
     }

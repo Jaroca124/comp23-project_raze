@@ -2,7 +2,7 @@ var json_received;
 
 var loadState = {
 	preload: function() {
-		var loadingLabel = game.add.text(400, 300, 'Loading...', {font: '64px Ariel', fill: 'white'});
+		var loadingLabel = game.add.text(300, 300, 'Loading...', {font: '64px Ariel', fill: 'white'});
 		
 		var request = new XMLHttpRequest();
         var url = "data.json";
@@ -20,6 +20,7 @@ var loadState = {
         request.send();
 
         // Loading Assets
+        game.load.audio('game_music', 'assets/game.mp3');
 		game.load.image('sky', 'assets/sky.png');
 	    game.load.image('ground', 'assets/platform.png');
 	    game.load.atlasJSONHash('sheet_small', 'assets/maps/sheet_small.png', 'assets/maps/sheet_small.json');
@@ -54,7 +55,6 @@ var loadState = {
         game.load.image('game_over', 'assets/gameover_screen.png');
         game.load.image('leader_bg', 'assets/leader_bg.png');
         game.load.image('input', 'assets/input.png');
-        game.load.audio('game_music', 'assets/game.mp3');
 	},
 
 	create: function() {
@@ -149,4 +149,8 @@ function create_item(group, type) {
         health_count++;    
     }
     return item;
+}
+
+function level_collisions(powerup, level_object) {
+    powerup.kill();
 }

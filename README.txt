@@ -14,7 +14,7 @@ Gameplay:
 
 Requirements:
 	- Global Score Board
-	- Realistic 2D graphics
+	- Realistic 2D Physics
 	- JSON Tunable
 	- Chiptune Music
 
@@ -46,6 +46,9 @@ References and Assets
 	- http://www.html5gamedevs.com/topic/3985-health-bars/
 	- http://perplexingtech.weebly.com/game-dev-blog/using-states-in-phaserjs-javascript-game-developement
 	- http://www.spriters-resource.com/genesis_32x_scd/lionking/sheet/29067/
+	- http://www.w3schools.com/jsref/jsref_random.asp
+	- http://phaser.io/
+	- http://phaser.io/examples/v2/camera/basic-follow
 
 	Muisc from:
 	- http://freemusicarchive.org/genre/chiptune/?sort=track_date_published&d=1&page=1&per_page=200
