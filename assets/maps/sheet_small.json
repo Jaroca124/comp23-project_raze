@@ -1,0 +1,48 @@
+{"frames": {
+
+"bush.png":
+{
+	"frame": {"x":2,"y":167,"w":59,"h":59},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":2,"w":59,"h":59},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"grass_small.png":
+{
+	"frame": {"x":2,"y":2,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"rock.png":
+{
+	"frame": {"x":2,"y":134,"w":31,"h":63},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":31,"h":63},
+	"sourceSize": {"w":32,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"water.png":
+{
+	"frame": {"x":2,"y":68,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "sheet_small.png",
+	"format": "RGBA8888",
+	"size": {"w":68,"h":228},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:eabbff82add5ba4211f82f350e16f4d7:7ad049b8445ae039f233b2f791348eaa:a1f2dd88d9ac766dd0561316f591fa79$"
+}
+}

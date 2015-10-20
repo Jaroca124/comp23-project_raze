@@ -1,0 +1,18 @@
+#container {
+	height: 100%;
+	width: 100%;
+	background-image: url(assets/waterfall-jungle-wallpaper-min.jpg);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+#gameDiv {
+	margin: 0 auto;
+	display: block;
+	position: relative;
+	left: 18%;
+}
