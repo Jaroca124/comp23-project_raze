@@ -39,17 +39,17 @@ function create_powerup(type, group, current_weapon) {
 	if (type == 'health') {
 	    var health_values = [25, 50, 75];
 		var index = Math.floor((Math.random() * 3));
-		var random_position = Math.floor((Math.random() * 100) + 1);
-	    var health_object = Health(group, health_values[index], ((250 + (random_position * 200)) % 800), ((250 * (random_position * random_position)) % 600));
+		var random_position = Math.floor((Math.random() * 1500) + 1);
+	    var health_object = Health(group, health_values[index], ((250 + (random_position * 200)) % 1100) + 200, ((250 * (random_position * 300)) % 900)) + 500;
 	    return health_object;
 	}
 	if (type == 'gun') {
-		var random_position = Math.floor((Math.random() * 100) + 1);
+		var random_position = Math.floor((Math.random() * 1100) + 1);
 		if (current_weapon == 0) {
-			return change_gun(guns, 1, ((250 + (random_position * 600)) % 1500), ((323 * (random_position * random_position)) % 1500));
+			return change_gun(guns, 1, ((250 + (random_position * 600)) % 1100) + 200, ((323 * (random_position * random_position)) % 1100)) + 200;
 		}
 		if (current_weapon == 1) {
-			return change_gun(guns, 2, ((250 + (random_position * 800)) % 1500), ((453 * (random_position * random_position)) % 1500));
+			return change_gun(guns, 2, ((250 + (random_position * 800)) % 1100) + 200, ((453 * (random_position * random_position)) % 1100)) + 200;
 		}
 		else {
 			return null;

@@ -57,7 +57,6 @@ Weapon.SingleBullet.prototype = Object.create(Phaser.Group.prototype);
 Weapon.SingleBullet.prototype.constructor = Weapon.SingleBullet;
 
 Weapon.SingleBullet.prototype.fire = function (source, Dual) {
-
     if (game.time.time < this.nextFire) { return; }
     var x;
     var y;
@@ -70,12 +69,10 @@ Weapon.SingleBullet.prototype.fire = function (source, Dual) {
         this.getFirstExists(false).fire(x, y, player.angle, this.bulletSpeed, 0, 0);
     }
     else {
-        console.log(source.width);
         x = source.x;
         y = source.y;
         this.getFirstExists(false).fire(x, y, player.angle, this.bulletSpeed, 0, 0);
     }
 
     this.nextFire = game.time.time + this.fireRate;
-
 };

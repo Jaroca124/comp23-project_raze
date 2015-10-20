@@ -2,7 +2,7 @@ var json_received;
 
 var loadState = {
 	preload: function() {
-		var loadingLabel = game.add.text(400, 300, 'Loading...', {font: '64px Ariel', fill: 'white'});
+		var loadingLabel = game.add.text(300, 300, 'Loading...', {font: '64px Ariel', fill: 'white'});
 		
 		var request = new XMLHttpRequest();
         var url = "data.json";
@@ -20,14 +20,14 @@ var loadState = {
         request.send();
 
         // Loading Assets
+        game.load.audio('game_music', 'assets/game.mp3');
 		game.load.image('sky', 'assets/sky.png');
 	    game.load.image('ground', 'assets/platform.png');
 	    game.load.atlasJSONHash('sheet_small', 'assets/maps/sheet_small.png', 'assets/maps/sheet_small.json');
 	    game.load.image('bullet4', 'assets/bullet6.png');
 	    game.load.image('rude', 'assets/rude.png');
 	    game.load.image('rock', 'assets/maps/rock.png');
-        game.load.image('player', 'assets/player_new.png');
-	    //game.load.spritesheet('player', 'assets/player_sheet.png', 32, 32, 14);
+        game.load.image('player', 'assets/player_centered.png');
 	    game.load.spritesheet('gorilla', 'assets/gorilla_sheet2.png', 132.5, 140);
 	    game.load.image('grass', 'assets/maps/grass_small.png');
 	    game.load.image('health_25', 'assets/health_25.png');
@@ -55,9 +55,6 @@ var loadState = {
         game.load.image('game_over', 'assets/gameover_screen.png');
         game.load.image('leader_bg', 'assets/leader_bg.png');
         game.load.image('input', 'assets/input.png');
-        game.load.audio('playing', 'assets/game.mp3');
-        game.load.audio('loading', 'assets/load.mp3');
-        console.log("are you listening to me");
 	},
 
 	create: function() {
@@ -68,7 +65,6 @@ var loadState = {
 //  Load various functions and objects
 var score = 0;
 var health_count = 0;
-// Pistol = 0, Dual = 1, automatic = 2
 var current_weapon = 0;
 var fired = false;
 var semi = true;
@@ -153,4 +149,8 @@ function create_item(group, type) {
         health_count++;    
     }
     return item;
+}
+
+function level_collisions(powerup, level_object) {
+    powerup.kill();
 }
