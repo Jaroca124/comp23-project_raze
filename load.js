@@ -55,10 +55,7 @@ var loadState = {
         game.load.image('game_over', 'assets/gameover_screen.png');
         game.load.image('leader_bg', 'assets/leader_bg.png');
         game.load.image('input', 'assets/input.png');
-<<<<<<< HEAD
-=======
         game.load.image('player_damage', 'assets/player_damaged.png');
->>>>>>> feedback
 	},
 
 	create: function() {
