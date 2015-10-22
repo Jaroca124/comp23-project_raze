@@ -55,6 +55,7 @@ var loadState = {
         game.load.image('game_over', 'assets/gameover_screen.png');
         game.load.image('leader_bg', 'assets/leader_bg.png');
         game.load.image('input', 'assets/input.png');
+        game.load.image('player_damage', 'assets/player_damaged.png');
 	},
 
 	create: function() {
@@ -103,6 +104,8 @@ function reload() {
 
 function collide() {
     health -= 2;
+    player.key = 'player_damage';
+    changeTexture();
     healthText.text = health;
 }
 
@@ -153,4 +156,15 @@ function create_item(group, type) {
 
 function level_collisions(powerup, level_object) {
     powerup.kill();
+}
+
+function changeTexture() {
+    if (player.key === 'player')
+    {
+        player.loadTexture('player', 0, false);
+    }
+    else
+    {
+        player.loadTexture('player_damage', 0, false);
+    }
 }

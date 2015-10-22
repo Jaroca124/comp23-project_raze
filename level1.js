@@ -127,6 +127,9 @@ var level1State = {
 
     update: function() {
 
+        player.key = 'player';
+        changeTexture();
+
         // Increase Score as a Function of Time
         if (health > 0) {
             score++;
