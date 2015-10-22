@@ -107,11 +107,8 @@ function reload() {
 
 function collide() {
     health -= 2;
-<<<<<<< HEAD
-=======
     player.key = 'player_damage';
     changeTexture();
->>>>>>> feedback
     healthText.text = health;
 }
 
